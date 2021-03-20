@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "654058561818",
+    "project_id": "solution-challenge-2021-ntu",
+    "storage_bucket": "solution-challenge-2021-ntu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654058561818:android:fce125470dae8594a34ca3",
+        "android_client_info": {
+          "package_name": "com.doumaokang.moodoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654058561818-v2l4lmsp0hk96buke7c9lpmhk7cs6prh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb3m5eKto65Bx8vvKNSqGT_RUH054GSy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654058561818-v2l4lmsp0hk96buke7c9lpmhk7cs6prh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "654058561818-4n4cfamdei3ll4qes37geh5ddgfepc9k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.doumaokang.moodoo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
