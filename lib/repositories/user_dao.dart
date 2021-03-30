@@ -18,7 +18,6 @@ class UserDAO{
     final db = await DBProvider.db.database;
     var res = await db.query("User", where: "username = ?", whereArgs: [username]);
     User user = res.isNotEmpty ? User.fromMap(res.first) : null;
-    print(user.toMap().toString());
     return user;
   }
 

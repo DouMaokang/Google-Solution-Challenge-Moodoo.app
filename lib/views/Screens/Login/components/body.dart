@@ -11,6 +11,7 @@ import 'package:solution_challenge_2021/views/components/rounded_button.dart';
 import 'package:solution_challenge_2021/views/components/rounded_input_field.dart';
 import 'package:solution_challenge_2021/views/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:solution_challenge_2021/views/constants.dart';
 
 
 //Future<UserCredential> signInWithGoogle() async {
@@ -66,10 +67,12 @@ class Body extends StatelessWidget {
                     text: "LOG IN",
                     press: () async {
                       User user = await UserDAO.userDAO.getUser(_username);
-                      print(user.username);
-                      print(user.password);
                       if (user == null) {
-                        print("User not found");
+                        final snackBar = SnackBar(
+                          backgroundColor: kPrimaryColor,
+                            content: Text('Invalid username', textAlign: TextAlign.center, style: TextStyle(fontSize: titleFontSize),)
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
                         if (Crypt(user.password).match(_password)) {
                           Global.global.setUsername(_username);
@@ -79,7 +82,11 @@ class Body extends StatelessWidget {
                             }),
                           );
                         } else {
-                          print("Wrong password");
+                          final snackBar = SnackBar(
+                              backgroundColor: kPrimaryColor,
+                              content: Text('Wrong password', textAlign: TextAlign.center, style: TextStyle(fontSize: titleFontSize),)
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       }
                     },
