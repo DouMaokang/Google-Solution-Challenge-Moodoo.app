@@ -105,21 +105,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return data;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
-            return Text("Error");
+            return Text("");
           } else if (snapshot.hasData) {
             return Scaffold(
               backgroundColor: Colors.white,
               body: Body(data: snapshot.data),
             );
           } else {
-            return Text("loading");
+            return Text("");
           }
         }
     );

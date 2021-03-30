@@ -22,7 +22,6 @@ class _BodyState extends State<Body> {
   CalendarFormat _calendarFormat;
   Map<String, double> _depressionScore = {};
   var _records;
-  var _tests;
 
   @override
   void initState() {
@@ -35,7 +34,6 @@ class _BodyState extends State<Body> {
     });
     String dateString = DateTimeUtil.dateToString(_selectedDate);
     _records = widget.data[dateString] == null ? null : widget.data[dateString]["record"];
-    _tests = widget.data[dateString] == null ? null : widget.data[dateString]["test"];
   }
 
 
@@ -48,7 +46,6 @@ class _BodyState extends State<Body> {
       }
       String dateString = DateTimeUtil.dateToString(_selectedDate);
       _records = widget.data[dateString] == null ? null : widget.data[dateString]["record"];
-      _tests = widget.data[dateString] == null ? null : widget.data[dateString]["test"];
     });
   }
 
@@ -78,9 +75,6 @@ class _BodyState extends State<Body> {
     return new Container(padding: EdgeInsets.only(top: 256), child: Center(child: Text("No recordings")),);
   }
 
-  // TODO: change calender date background colors based on available data
-  // TODO: make calendar slide continuous
-  // TODO: factor out common styles (fonts and colors)
   @override
   Widget build(BuildContext context) {
     return Column(

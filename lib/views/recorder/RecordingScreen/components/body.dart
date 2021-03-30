@@ -94,6 +94,8 @@ class _BodyState extends State<Body> {
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: kPrimaryColor),
         leading: new IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
           icon: new Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -213,6 +215,8 @@ class _BodyState extends State<Body> {
             shape: CircleBorder(),
           ),
           child: IconButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
             icon: const Icon(Icons.pause),
             iconSize: 28,
             color: Colors.white,
