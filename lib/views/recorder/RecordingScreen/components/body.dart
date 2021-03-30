@@ -10,10 +10,15 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:solution_challenge_2021/models/record.dart';
 import 'package:solution_challenge_2021/repositories/record_dao.dart';
+import 'package:solution_challenge_2021/starting.dart';
+import 'package:solution_challenge_2021/views/calendar/calendar_screen.dart';
 import 'package:solution_challenge_2021/views/components/rounded_button.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+
+import 'package:solution_challenge_2021/views/home/HomePage.dart';
+import 'package:solution_challenge_2021/views/visualization/calendar_view/CalendarPage.dart';
 
 enum RecordPlayState {
   idle,
@@ -25,7 +30,9 @@ enum RecordPlayState {
 }
 
 class Body extends StatefulWidget {
-  Body({Key key}) : super(key: key);
+  final int sessionId;
+
+  const Body({Key key, this.sessionId}) : super(key: key);
 
   @override
   _BodyState createState() => _BodyState();
@@ -39,23 +46,24 @@ class _BodyState extends State<Body> {
 
   CountDownController _countdownController = CountDownController();
 
-  var _sessionId = 1; // TODO: get session id
+  var _sessionId;
   var _path = "";
 
   /// The max length of audio duration in seconds
-  var _maxDuration = 59;
+  var _maxDuration = 60 * 15;
 
   int _messageIndex = 0;
-  var _message = ["What makes you happy today", "I am here to hear about it", "Don't worry about anything", "It's okay to pause"];
-  Timer _every20s;
+  var _message = ["Take a deep breath", "I am here", "Go ahead", "Do not worry about anything", "Focus on your mind flow"];
+  Timer _every30s;
 
   @override
   void initState() {
     super.initState();
+    _sessionId = widget.sessionId;
     init();
     _startRecorder();
 
-    _every20s = Timer.periodic(Duration(seconds: 5), (Timer t) {
+    _every30s = Timer.periodic(Duration(seconds: 30), (Timer t) {
       if (_messageIndex < _message.length - 1) {
         setState(() {
           _messageIndex += 1;
@@ -211,41 +219,84 @@ class _BodyState extends State<Body> {
             onPressed: () {
               _pauseRecorder();
               showModalBottomSheet(
-                  backgroundColor: Colors.white.withOpacity(0.6),
-                  isScrollControlled: true,
+                  backgroundColor: Colors.white,
                   enableDrag: false,
                   isDismissible: false,
                   context: context,
                   builder: (BuildContext bc) {
                     return Container(
                       margin: EdgeInsets.all(16),
-//                      height: MediaQuery.of(context).size.height * 0.8,
+                      height:180,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Expanded(
-                            child: Center(
-                              child: SvgPicture.asset(
-                                "assets/icons/group-chat.svg",
-                                height: 200,
-                              ),
-                            ),
-                          ),
                           Center(
                             child: RoundedButton(
                                 text: "Quit",
-                                press: () {Navigator.pop(context);}
+                                press: () {
+                                  _stopRecorder();
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Main();
+                                      },
+                                    ),
+                                  );
+                                }
                             ),
                           ),
-
                           Center(
                             child: RoundedButton(
                                 text: "Save",
                                 press: () {
-                                  Navigator.pop(context);
+                                  _stopRecorder();
                                   _saveRecording();
+                                  showModalBottomSheet(
+                                      backgroundColor: Colors.white,
+                                      enableDrag: false,
+                                      isDismissible: false,
+                                      context: context,
+                                      builder: (BuildContext bc) {
+                                        return Container(
+                                          margin: EdgeInsets.all(16),
+                                          height:180,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(height: 16),
+                                              Center(
+                                                child:Text(
+                                                  "YOU MADE IT!",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: textPrimaryColor, fontSize: 19, fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: RoundedButton(
+                                                    text: "Check Result",
+                                                    press: () {
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                      Navigator.of(context).pushReplacement(
+                                                        MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return CalendarScreen();
+                                                          },
+                                                        ),
+                                                      );
+                                                    }
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                  );
                                 }
                             ),
                           ),
+                          SizedBox(height: 24)
                         ],
                       ),
                     );
@@ -274,7 +325,7 @@ class _BodyState extends State<Body> {
     }
   }
 
-  /// 开始录音
+  /// Start recording
   _startRecorder() async {
     try {
       // Request microphone permission
@@ -360,23 +411,25 @@ class _BodyState extends State<Body> {
   }
 
   Future<void> _saveRecording() async {
-    Record record = new Record(sessionId: _sessionId, filePath: "sdfsdpath");
+    Record record = new Record(sessionId: _sessionId, filePath: _path);
     var recordId = await RecordDAO.recordDAO.addRecord(record);
     record.id = recordId;
     print(await RecordDAO.recordDAO.getAllRecord());
-    var score = await _uploadFile();
+    var score = await _uploadFile(1);
     record.score = score;
     await RecordDAO.recordDAO.updateRecordScore(record);
     print(await RecordDAO.recordDAO.getAllRecord());
   }
 
-  Future<double> _uploadFile() async {
+  Future<double> _uploadFile(int count) async {
+    if (count > 20) {
+      return 0.0;
+    }
     File file = File('$_path');
     var data = await file.readAsBytes();
 
     List<num> data16 = data.buffer.asInt16List();
     List<double> input = data16.map((i) => i.toDouble()).toList();
-    print(input);
 
     var url = Uri.parse('https://arboreal-cat-308207.et.r.appspot.com/v1/ai/predict');
     var header = {"Content-Type": "application/json"};
@@ -384,13 +437,15 @@ class _BodyState extends State<Body> {
 
     var response = await http.post(url, headers: header, body: body);
     // Update database
+    print(response.body);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       return jsonResponse["phq8_score"];
     } else {
       print('Request failed with status: ${response.statusCode}.');
       print('Trying again');
-      return await _uploadFile();
+      sleep(new Duration(seconds: 30));
+      return await _uploadFile(count + 1);
     }
   }
 

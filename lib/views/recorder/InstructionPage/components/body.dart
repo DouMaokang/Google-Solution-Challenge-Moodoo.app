@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
-import 'package:solution_challenge_2021/views/constants.dart';
 import 'package:solution_challenge_2021/views/recorder/RecordingScreen/recording_screen.dart';
-import 'package:solution_challenge_2021/views/recorder/oldRecorderPage.dart';
-//import 'package:solution_challenge_2021/views/recorder/RecordingScreen/recording_screen.dart';
 
 class Body extends StatefulWidget {
+
+  final int sessionId;
+  final String title;
+
+  const Body({Key key, this.sessionId, this.title}) : super(key: key);
+
   @override
   _BodyState createState() => _BodyState();
 }
@@ -14,19 +17,18 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
 
   int _currentStep = 0;
-  int _totalSteps;  // TODO: derive this value
+  int _totalSteps;
   var _messages;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       _messages = [
         "Congratulations on making it again today",
         "Find a comfortable space without distractions",
         "Think about your day and tell me about",
-        "One thing that makes you happy today",
+        widget.title,
         "Ready? Click to start"
       ];
       _totalSteps = _messages.length;
@@ -62,7 +64,7 @@ class _BodyState extends State<Body> {
               incrementStep();
               Navigator.of(context).pushReplacement(PageRouteBuilder(
                   pageBuilder: (context, animation, anotherAnimation) {
-                    return RecordingScreen();
+                    return RecordingScreen(sessionId: widget.sessionId,);
 //                    return RecorderPage();
                   },
                   transitionDuration: Duration(milliseconds: 1000),

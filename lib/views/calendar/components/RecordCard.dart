@@ -11,11 +11,29 @@ class RecordCard extends StatelessWidget {
 
   const RecordCard({Key key, this.record}) : super(key: key);
 
+  String _mapScoreToLevel(double score) {
+    if (score == null) {
+      return "..";
+    }
+    if (score <= 4.0) {
+      return "you do not have signs of depression";
+    } else if (score <= 9.0) {
+      return "you may have mild depression";
+    } else if (score <= 14) {
+      return "you may have moderate depression";
+    } else if (score <= 19) {
+      return "you may be at risk of servere depression";
+    } else {
+      return "you may have servere depression";
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     Future _session = SessionDAO.sessionDAO.getSession(record.id);
-    var _level = "Happy"; // TODO: change me
+    var _level = _mapScoreToLevel(record.score); // TODO: change me
+
     return Container(
       margin: EdgeInsets.only(bottom: 2),
       child: Card(
@@ -83,7 +101,7 @@ class RecordCard extends StatelessWidget {
                     if (snapshot.hasError) {
                       return Text("Error");
                     } else if (snapshot.hasData) {
-                      return Text("You have shared ${snapshot.data.title.toLowerCase()}, and we can tell you are ${_level.toLowerCase()}",
+                      return Text("You have shared ${snapshot.data.title.toLowerCase()}, and we can tell ${_level.toLowerCase()}.",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                             color: textPrimaryColor, fontSize: secondaryTextFontSize, fontWeight: FontWeight.normal),

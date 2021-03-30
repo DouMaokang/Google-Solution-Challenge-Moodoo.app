@@ -22,7 +22,7 @@ class DBProvider {
 
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "TestDB9.db");
+    String path = join(documentsDirectory.path, "TestDB10.db");
     return await openDatabase(
         path,
         version: 1,

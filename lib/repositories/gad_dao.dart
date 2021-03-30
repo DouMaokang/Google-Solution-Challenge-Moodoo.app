@@ -7,7 +7,7 @@ class GadDAO{
   GadDAO._();
   static final GadDAO gadDAO = GadDAO._();
 
-  addTest(Test test) async {
+  addTest(GAD test) async {
     final db = await DBProvider.db.database;
     var res = await db.rawInsert('''
       INSERT Into GAD (score) VALUES 

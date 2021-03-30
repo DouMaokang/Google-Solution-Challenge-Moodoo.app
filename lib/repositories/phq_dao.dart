@@ -7,7 +7,7 @@ class PhqDAO{
   PhqDAO._();
   static final PhqDAO phqDAO = PhqDAO._();
 
-  addTest(Test test) async {
+  addTest(PHQ test) async {
     final db = await DBProvider.db.database;
     var res = await db.rawInsert('''
       INSERT Into PHQ (score) VALUES 

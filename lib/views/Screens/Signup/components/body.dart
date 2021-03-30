@@ -44,11 +44,14 @@ class Body extends StatelessWidget {
               text: "SIGN UP",
               press: () async {
                 User user = new User(username: _username, password: _password.toString());
-                print(user.toMap().toString());
-                var userId = await UserDAO.userDAO.addUser(user);
-                User newUser = await UserDAO.userDAO.getUser(_username);
-                print(newUser.toMap().toString());
-
+                await UserDAO.userDAO.addUser(user);
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return LoginScreen();
+                    },
+                  ),
+                );
               },
             ),
             SizedBox(height: size.height * 0.03),

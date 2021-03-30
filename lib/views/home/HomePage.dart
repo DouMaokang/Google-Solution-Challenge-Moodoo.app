@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
             } else if (snapshot.hasData) {
               print(snapshot.data);
               final List<Map> sessions = snapshot.data;
+              print(sessions);
 
               return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(builder: (context) {
-                                              return InstructionScreen();
+                                              return InstructionScreen(sessionId: session["id"], title: session["title"],);
                                             }),
                                           );
                                         },
@@ -172,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: sessions.map((session) {
-                        int index = sessions.indexOf(session);
+                        int index = session["id"] - 1;
                         return Container(
                           width: 8.0,
                           height: 8.0,
@@ -182,7 +183,6 @@ class _HomePageState extends State<HomePage> {
                             color: _current == index
                                 ? Color.fromRGBO(0, 0, 0, 0.9)
                                 : Color.fromRGBO(0, 0, 0, 0.2),
-
                           ),
                         );
                       }).toList(),
