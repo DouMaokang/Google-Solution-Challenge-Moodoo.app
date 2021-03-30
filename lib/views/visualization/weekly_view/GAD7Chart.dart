@@ -1,9 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:solution_challenge_2021/models/gad_test.dart';
-import 'package:solution_challenge_2021/models/test.dart';
 import 'package:solution_challenge_2021/repositories/gad_dao.dart';
-import 'package:solution_challenge_2021/repositories/test_dao.dart';
 import 'package:solution_challenge_2021/utils/DateTimeUtil.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 
@@ -19,13 +17,11 @@ class GAD7ChartState extends State<GAD7Chart> {
     if (testList != null) {
       for (int i = 0; i < testList.length; i++) {
         GAD test = testList[i];
-        DateTime date = new DateTime.fromMillisecondsSinceEpoch(test.datetimeCreated * 1000);
+        DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+            test.datetimeCreated * 1000);
         String dateString = DateTimeUtil.dateToString(date);
-        if (! data.containsKey(dateString)) {
-          data[dateString] = {
-            "avg_score": 0.0,
-            "test": []
-          };
+        if (!data.containsKey(dateString)) {
+          data[dateString] = {"avg_score": 0.0, "test": []};
         }
         data[dateString]["test"].add(test);
       }
@@ -60,27 +56,25 @@ class GAD7ChartState extends State<GAD7Chart> {
       scores.add(FlSpot((dayOfWeek + i).toDouble(), score.toDouble()));
     }
 
-
-
     print(scores);
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
-        spots: scores,
-        isCurved: true,
-        colors: gradientColors,
-        barWidth: 5,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-        belowBarData: BarAreaData(
-          show: true,
-          colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
-        ),
-      );
-      return [
-        lineChartBarData1,
-      ];
+    final LineChartBarData lineChartBarData1 = LineChartBarData(
+      spots: scores,
+      isCurved: true,
+      colors: gradientColors,
+      barWidth: 5,
+      isStrokeCapRound: true,
+      dotData: FlDotData(
+        show: false,
+      ),
+      belowBarData: BarAreaData(
+        show: true,
+        colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+      ),
+    );
+    return [
+      lineChartBarData1,
+    ];
   }
 
   bool isShowingWeeklyData;
@@ -107,60 +101,63 @@ class GAD7ChartState extends State<GAD7Chart> {
           ),
         ),
         child: FutureBuilder(
-          future: _getData(),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasError) {
-              return Text("");
-            } else if (snapshot.hasData) {
-              return Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Text(
-                          'GAD-7 Score',
-                          style: TextStyle(
-                              color: textPrimaryColor, fontSize: titleFontSize, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          '${DateTimeUtil.dateToString(DateTime.now().subtract(new Duration(days: 6)))} ~ ${DateTimeUtil.dateToString(DateTime.now())}',
-                          style: TextStyle(
-                              color: const Color(0xff827daa), fontSize: titleFontSize, fontWeight: FontWeight.normal),
-                        ),
-                        const SizedBox(
-                          height: 38,
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 16.0, left: 0.0),
-                            child: LineChart(
-                              sampleData1(_getPast7DaysData(snapshot.data)),
-                              swapAnimationDuration: const Duration(milliseconds: 250),
+            future: _getData(),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.hasError) {
+                return Text("");
+              } else if (snapshot.hasData) {
+                return Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text(
+                            'GAD-7 Score',
+                            style: TextStyle(
+                                color: textPrimaryColor,
+                                fontSize: titleFontSize,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            '${DateTimeUtil.dateToString(DateTime.now().subtract(new Duration(days: 6)))} ~ ${DateTimeUtil.dateToString(DateTime.now())}',
+                            style: TextStyle(
+                                color: const Color(0xff827daa),
+                                fontSize: titleFontSize,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          const SizedBox(
+                            height: 38,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 16.0, left: 0.0),
+                              child: LineChart(
+                                sampleData1(_getPast7DaysData(snapshot.data)),
+                                swapAnimationDuration:
+                                    const Duration(milliseconds: 250),
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              );
-            } else {
-              return Text("");
-            }
-          }
-
-            
-        ),
+                  ],
+                );
+              } else {
+                return Text("");
+              }
+            }),
       ),
     );
   }
@@ -257,7 +254,8 @@ class GAD7ChartState extends State<GAD7Chart> {
         ),
       ),
       minX: DateTime.now().subtract(new Duration(days: 6)).weekday.toDouble(),
-      maxX: DateTime.now().subtract(new Duration(days: 6)).weekday.toDouble() + 6,
+      maxX:
+          DateTime.now().subtract(new Duration(days: 6)).weekday.toDouble() + 6,
       maxY: 21,
       minY: 0,
       lineBarsData: barData,

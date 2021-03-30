@@ -1,5 +1,6 @@
 import 'package:crypt/crypt.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:solution_challenge_2021/models/user.dart';
 import 'package:solution_challenge_2021/repositories/user_dao.dart';
 import 'package:solution_challenge_2021/views/Screens/Login/login_screen.dart';
@@ -7,10 +8,8 @@ import 'package:solution_challenge_2021/views/components/already_have_an_account
 import 'package:solution_challenge_2021/views/components/rounded_button.dart';
 import 'package:solution_challenge_2021/views/components/rounded_input_field.dart';
 import 'package:solution_challenge_2021/views/components/rounded_password_field.dart';
-import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {
-
   String _username;
   String _password;
 
@@ -27,7 +26,6 @@ class Body extends StatelessWidget {
               height: size.height * 0.45,
             ),
             SizedBox(height: size.height * 0.03),
-
             RoundedInputField(
               hintText: "Username",
               onChanged: (value) {
@@ -43,7 +41,8 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "SIGN UP",
               press: () async {
-                User user = new User(username: _username, password: _password.toString());
+                User user = new User(
+                    username: _username, password: _password.toString());
                 await UserDAO.userDAO.addUser(user);
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:solution_challenge_2021/views/quiz/controllers/question_controllerGAD.dart';
-
 import 'package:solution_challenge_2021/views/quiz/constants.dart';
+import 'package:solution_challenge_2021/views/quiz/controllers/question_controllerGAD.dart';
 
 class Option extends StatelessWidget {
   const Option({

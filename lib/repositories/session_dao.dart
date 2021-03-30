@@ -1,10 +1,9 @@
 import 'package:solution_challenge_2021/helper/database.dart';
-import 'package:solution_challenge_2021/models/record.dart';
 import 'package:solution_challenge_2021/models/session.dart';
 
-class SessionDAO{
-
+class SessionDAO {
   SessionDAO._();
+
   static final SessionDAO sessionDAO = SessionDAO._();
 
   getSession(int id) async {
@@ -21,5 +20,3 @@ class SessionDAO{
     return res;
   }
 }
-
-

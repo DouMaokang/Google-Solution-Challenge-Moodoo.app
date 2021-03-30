@@ -12,33 +12,40 @@ class QuestionControllerGAD extends GetxController
 
   AnimationController _animationController;
   Animation _animation;
+
   // so that we can access our animation outside
   Animation get animation => this._animation;
 
   PageController _pageController;
+
   PageController get pageController => this._pageController;
 
   List<Question> _questions = sample_data
       .map(
         (question) => Question(
-            id: question['id'],
-            question: question['question'],
-            options: question['options'],),
+          id: question['id'],
+          question: question['question'],
+          options: question['options'],
+        ),
       )
       .toList();
+
   List<Question> get questions => this._questions;
 
   bool _isAnswered = false;
+
   bool get isAnswered => this._isAnswered;
 
   int _selectedAns;
+
   int get selectedAns => this._selectedAns;
 
-  
   RxInt _questionNumber = 1.obs;
+
   RxInt get questionNumber => this._questionNumber;
 
   int _totalScore = 0;
+
   int get totalScore => this._totalScore;
 
   // called immediately after the widget is allocated memory
@@ -76,10 +83,10 @@ class QuestionControllerGAD extends GetxController
     _selectedAns = selectedIndex;
 
     //if (_correctAns == _selectedAns) _numOfCorrectAns++;
-    if (_selectedAns == 0) _totalScore+=0;
-    if (_selectedAns == 1) _totalScore+=1;
-    if (_selectedAns == 2) _totalScore+=2;
-    if (_selectedAns == 3) _totalScore+=3;
+    if (_selectedAns == 0) _totalScore += 0;
+    if (_selectedAns == 1) _totalScore += 1;
+    if (_selectedAns == 2) _totalScore += 2;
+    if (_selectedAns == 3) _totalScore += 3;
 
     // It will stop the counter
     _animationController.stop();

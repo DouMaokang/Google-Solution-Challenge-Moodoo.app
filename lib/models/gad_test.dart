@@ -18,14 +18,14 @@ class GAD {
   int datetimeCreated;
 
   factory GAD.fromMap(Map<String, dynamic> json) => GAD(
-    id: json["id"],
-    score: json["score"],
-    datetimeCreated: json["datetime_created"],
-  );
+        id: json["id"],
+        score: json["score"],
+        datetimeCreated: json["datetime_created"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "id": id,
-    "score": score,
-    "datetime_created": datetimeCreated,
-  };
+        "id": id,
+        "score": score,
+        "datetime_created": datetimeCreated,
+      };
 }

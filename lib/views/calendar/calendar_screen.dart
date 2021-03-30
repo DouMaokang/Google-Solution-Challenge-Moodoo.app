@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:solution_challenge_2021/models/gad_test.dart';
 import 'package:solution_challenge_2021/models/phq_test.dart';
 import 'package:solution_challenge_2021/models/record.dart';
-import 'package:solution_challenge_2021/models/test.dart';
 import 'package:solution_challenge_2021/repositories/gad_dao.dart';
 import 'package:solution_challenge_2021/repositories/phq_dao.dart';
 import 'package:solution_challenge_2021/repositories/record_dao.dart';
-import 'package:solution_challenge_2021/repositories/test_dao.dart';
 import 'package:solution_challenge_2021/utils/DateTimeUtil.dart';
 
-import '../constants.dart';
 import 'components/body.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -18,7 +15,6 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-
   Future<Map> getData() async {
     /**
      * data = {
@@ -37,9 +33,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     if (recordList != null) {
       for (int i = 0; i < recordList.length; i++) {
         Record record = recordList[i];
-        DateTime date = new DateTime.fromMillisecondsSinceEpoch(record.datetimeCreated * 1000);
+        DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+            record.datetimeCreated * 1000);
         String dateString = DateTimeUtil.dateToString(date);
-        if (! data.containsKey(dateString)) {
+        if (!data.containsKey(dateString)) {
           data[dateString] = {
             "avg_score": 0.0,
             "record": [],
@@ -69,9 +66,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     if (gadList != null) {
       for (int i = 0; i < gadList.length; i++) {
         GAD test = gadList[i];
-        DateTime date = new DateTime.fromMillisecondsSinceEpoch(test.datetimeCreated * 1000);
+        DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+            test.datetimeCreated * 1000);
         String dateString = DateTimeUtil.dateToString(date);
-        if (! data.containsKey(dateString)) {
+        if (!data.containsKey(dateString)) {
           data[dateString] = {
             "avg_score": 0.0,
             "record": [],
@@ -85,9 +83,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     if (phqList != null) {
       for (int i = 0; i < phqList.length; i++) {
         PHQ test = phqList[i];
-        DateTime date = new DateTime.fromMillisecondsSinceEpoch(test.datetimeCreated * 1000);
+        DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+            test.datetimeCreated * 1000);
         String dateString = DateTimeUtil.dateToString(date);
-        if (! data.containsKey(dateString)) {
+        if (!data.containsKey(dateString)) {
           data[dateString] = {
             "avg_score": 0.0,
             "record": [],
@@ -100,7 +99,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
 
     print(data);
-
 
     return data;
   }
@@ -120,7 +118,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
           } else {
             return Text("");
           }
-        }
-    );
+        });
   }
 }

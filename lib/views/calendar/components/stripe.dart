@@ -10,10 +10,12 @@ class CalendarStripe extends StatefulWidget {
   final Function onVisibleMonthChange;
   final CalendarFormat calendarFormat;
   final Map<String, double> depressionScore;
+
   CalendarStripe(
       {this.onSelectedDateChange,
-        this.onVisibleMonthChange,
-        this.calendarFormat, this.depressionScore});
+      this.onVisibleMonthChange,
+      this.calendarFormat,
+      this.depressionScore});
 
   @override
   _CalendarStripeState createState() => _CalendarStripeState();
@@ -56,26 +58,20 @@ class _CalendarStripeState extends State<CalendarStripe> {
   }
 
   CalendarBuilders _calendarBuilder() {
-
     Widget _commonBuilder({date, center}) {
-      return (
-          CircularPercentIndicator(
-            circularStrokeCap: CircularStrokeCap.round,
-            rotateLinearGradient: true,
-            linearGradient: LinearGradient(
-              colors: [
-                calendarGradientStart,
-                calendarGradientEnd
-              ],
-            ),
-            animation: true,
-            radius: 40.0,
-            lineWidth: 5.0,
-            percent: _computePercentage(date),
-            backgroundColor: Colors.white,
-            center: center,
-          )
-      );
+      return (CircularPercentIndicator(
+        circularStrokeCap: CircularStrokeCap.round,
+        rotateLinearGradient: true,
+        linearGradient: LinearGradient(
+          colors: [calendarGradientStart, calendarGradientEnd],
+        ),
+        animation: true,
+        radius: 40.0,
+        lineWidth: 5.0,
+        percent: _computePercentage(date),
+        backgroundColor: Colors.white,
+        center: center,
+      ));
     }
 
     return CalendarBuilders(
@@ -86,7 +82,8 @@ class _CalendarStripeState extends State<CalendarStripe> {
             alignment: Alignment.center,
             children: [
               Text('${date.day}',
-                  style: TextStyle(fontSize: secondaryTextFontSize, color: Colors.red),
+                  style: TextStyle(
+                      fontSize: secondaryTextFontSize, color: Colors.red),
                   textAlign: TextAlign.center),
             ],
           ),
@@ -110,8 +107,7 @@ class _CalendarStripeState extends State<CalendarStripe> {
                         fontSize: secondaryTextFontSize,
                         color: DateTimeUtil.compareDate(date, DateTime.now())
                             ? Colors.red
-                            : Colors.black
-                    ),
+                            : Colors.black),
                     textAlign: TextAlign.center),
               ],
             ),
@@ -119,7 +115,6 @@ class _CalendarStripeState extends State<CalendarStripe> {
         );
       },
       dayBuilder: (context, date, _) {
-
         return _commonBuilder(
           date: date,
           center: Stack(
@@ -162,7 +157,7 @@ class _CalendarStripeState extends State<CalendarStripe> {
             if (format == CalendarFormat.week) {
               // swipe in week format
               DateTime selectedDateAfterSwipe =
-              first.add(new Duration(days: curSelected.weekday));
+                  first.add(new Duration(days: curSelected.weekday));
               _calendarController.setSelectedDay(selectedDateAfterSwipe);
               widget.onSelectedDateChange(
                   _calendarController.selectedDay, false);

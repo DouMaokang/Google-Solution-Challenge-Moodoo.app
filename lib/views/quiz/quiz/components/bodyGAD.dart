@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:solution_challenge_2021/views/quiz/constants.dart';
 import 'package:solution_challenge_2021/views/quiz/controllers/question_controllerGAD.dart';
 
-import 'progress_barGAD.dart';
 import 'question_cardGAD.dart';
 
 class BodyGAD extends StatelessWidget {
@@ -14,15 +13,15 @@ class BodyGAD extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // So that we have access our controller
-    QuestionControllerGAD _questionControllerGAD = Get.put(QuestionControllerGAD());
+    QuestionControllerGAD _questionControllerGAD =
+        Get.put(QuestionControllerGAD());
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: kDefaultPadding),
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
             child: Obx(
               () => Text.rich(
                 TextSpan(

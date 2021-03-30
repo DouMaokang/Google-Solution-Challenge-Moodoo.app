@@ -45,7 +45,9 @@ class BarChartSample1State extends State<BarChartSample1> {
                   Text(
                     'Mood',
                     style: TextStyle(
-                        color: const Color(0xff0f4a3c), fontSize: 24, fontWeight: FontWeight.bold),
+                        color: const Color(0xff0f4a3c),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 4,
@@ -53,7 +55,9 @@ class BarChartSample1State extends State<BarChartSample1> {
                   Text(
                     '12 Jan ~ 18 Jan, 2021',
                     style: TextStyle(
-                        color: const Color(0xff379982), fontSize: 18, fontWeight: FontWeight.bold),
+                        color: const Color(0xff379982),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 38,
@@ -80,7 +84,8 @@ class BarChartSample1State extends State<BarChartSample1> {
                 child: IconButton(
                   icon: Icon(
                     Icons.more_time_rounded,
-                    color: const Color(0xff0f4a3c).withOpacity(isShowingWeeklyData ? 0.5 : 1.0),
+                    color: const Color(0xff0f4a3c)
+                        .withOpacity(isShowingWeeklyData ? 0.5 : 1.0),
                   ),
                   onPressed: () {
                     setState(() {
@@ -100,20 +105,20 @@ class BarChartSample1State extends State<BarChartSample1> {
   }
 
   BarChartGroupData makeGroupData(
-      int x,
-      double y, {
-        bool isTouched = false,
-        Color barColor = Colors.white,
-        double width = 5,
-        List<int> showTooltips = const [],
-      }) {
+    int x,
+    double y, {
+    bool isTouched = false,
+    Color barColor = Colors.white,
+    double width = 5,
+    List<int> showTooltips = const [],
+  }) {
     return BarChartGroupData(
       x: x,
       barRods: [
         BarChartRodData(
           y: isTouched ? y + 1 : y,
           colors: isTouched ? [Colors.yellow] : [barColor],
-          width: isShowingWeeklyData? 5 : 20,
+          width: isShowingWeeklyData ? 5 : 20,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             y: 20,
@@ -126,76 +131,76 @@ class BarChartSample1State extends State<BarChartSample1> {
   }
 
   List<BarChartGroupData> showingGroups() => List.generate(31, (i) {
-    switch (i) {
-      case 0:
-        return makeGroupData(0, 5, isTouched: i == touchedIndex);
-      case 1:
-        return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
-      case 2:
-        return makeGroupData(2, 5, isTouched: i == touchedIndex);
-      case 3:
-        return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
-      case 4:
-        return makeGroupData(4, 9, isTouched: i == touchedIndex);
-      case 5:
-        return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
-      case 6:
-        return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
-      case 7:
-        return makeGroupData(7, 6.5, isTouched: i == touchedIndex);
-      case 8:
-        return makeGroupData(8, 6.5, isTouched: i == touchedIndex);
-      case 9:
-        return makeGroupData(9, 6.5, isTouched: i == touchedIndex);
-      case 10:
-        return makeGroupData(10, 6.5, isTouched: i == touchedIndex);
-      case 11:
-        return makeGroupData(11, 6.5, isTouched: i == touchedIndex);
-      case 12:
-        return makeGroupData(12, 6.5, isTouched: i == touchedIndex);
-      case 13:
-        return makeGroupData(13, 6.5, isTouched: i == touchedIndex);
-      case 14:
-        return makeGroupData(14, 6.5, isTouched: i == touchedIndex);
-      case 15:
-        return makeGroupData(15, 6.5, isTouched: i == touchedIndex);
-      case 16:
-        return makeGroupData(16, 6.5, isTouched: i == touchedIndex);
-      case 17:
-        return makeGroupData(17, 6.5, isTouched: i == touchedIndex);
-      case 18:
-        return makeGroupData(18, 6.5, isTouched: i == touchedIndex);
-      case 19:
-        return makeGroupData(19, 6.5, isTouched: i == touchedIndex);
-      case 20:
-        return makeGroupData(20, 6.5, isTouched: i == touchedIndex);
-      case 21:
-        return makeGroupData(20, 6.5, isTouched: i == touchedIndex);
-      case 22:
-        return makeGroupData(20, 6.5, isTouched: i == touchedIndex);
-      case 23:
-        return makeGroupData(20, 9.5, isTouched: i == touchedIndex);
-      case 24:
-        return makeGroupData(20, 12.5, isTouched: i == touchedIndex);
-      case 25:
-        return makeGroupData(20, 15.5, isTouched: i == touchedIndex);
-      case 26:
-        return makeGroupData(20, 6.5, isTouched: i == touchedIndex);
-      case 27:
-        return makeGroupData(20, 1.5, isTouched: i == touchedIndex);
-      case 28:
-        return makeGroupData(20, 18.5, isTouched: i == touchedIndex);
-      case 29:
-        return makeGroupData(20, 14.5, isTouched: i == touchedIndex);
-      case 30:
-        return makeGroupData(20, 9.5, isTouched: i == touchedIndex);
-      case 31:
-        return makeGroupData(20, 10.5, isTouched: i == touchedIndex);
+        switch (i) {
+          case 0:
+            return makeGroupData(0, 5, isTouched: i == touchedIndex);
+          case 1:
+            return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
+          case 2:
+            return makeGroupData(2, 5, isTouched: i == touchedIndex);
+          case 3:
+            return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
+          case 4:
+            return makeGroupData(4, 9, isTouched: i == touchedIndex);
+          case 5:
+            return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
+          case 6:
+            return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
+          case 7:
+            return makeGroupData(7, 6.5, isTouched: i == touchedIndex);
+          case 8:
+            return makeGroupData(8, 6.5, isTouched: i == touchedIndex);
+          case 9:
+            return makeGroupData(9, 6.5, isTouched: i == touchedIndex);
+          case 10:
+            return makeGroupData(10, 6.5, isTouched: i == touchedIndex);
+          case 11:
+            return makeGroupData(11, 6.5, isTouched: i == touchedIndex);
+          case 12:
+            return makeGroupData(12, 6.5, isTouched: i == touchedIndex);
+          case 13:
+            return makeGroupData(13, 6.5, isTouched: i == touchedIndex);
+          case 14:
+            return makeGroupData(14, 6.5, isTouched: i == touchedIndex);
+          case 15:
+            return makeGroupData(15, 6.5, isTouched: i == touchedIndex);
+          case 16:
+            return makeGroupData(16, 6.5, isTouched: i == touchedIndex);
+          case 17:
+            return makeGroupData(17, 6.5, isTouched: i == touchedIndex);
+          case 18:
+            return makeGroupData(18, 6.5, isTouched: i == touchedIndex);
+          case 19:
+            return makeGroupData(19, 6.5, isTouched: i == touchedIndex);
+          case 20:
+            return makeGroupData(20, 6.5, isTouched: i == touchedIndex);
+          case 21:
+            return makeGroupData(20, 6.5, isTouched: i == touchedIndex);
+          case 22:
+            return makeGroupData(20, 6.5, isTouched: i == touchedIndex);
+          case 23:
+            return makeGroupData(20, 9.5, isTouched: i == touchedIndex);
+          case 24:
+            return makeGroupData(20, 12.5, isTouched: i == touchedIndex);
+          case 25:
+            return makeGroupData(20, 15.5, isTouched: i == touchedIndex);
+          case 26:
+            return makeGroupData(20, 6.5, isTouched: i == touchedIndex);
+          case 27:
+            return makeGroupData(20, 1.5, isTouched: i == touchedIndex);
+          case 28:
+            return makeGroupData(20, 18.5, isTouched: i == touchedIndex);
+          case 29:
+            return makeGroupData(20, 14.5, isTouched: i == touchedIndex);
+          case 30:
+            return makeGroupData(20, 9.5, isTouched: i == touchedIndex);
+          case 31:
+            return makeGroupData(20, 10.5, isTouched: i == touchedIndex);
 
-      default:
-        return null;
-    }
-  });
+          default:
+            return null;
+        }
+      });
 
   BarChartData mainBarData() {
     return BarChartData(
@@ -227,8 +232,8 @@ class BarChartSample1State extends State<BarChartSample1> {
                   weekDay = 'Sunday';
                   break;
               }
-              return BarTooltipItem(
-                  weekDay + '\n' + (rod.y - 1).toString(), TextStyle(color: Colors.yellow));
+              return BarTooltipItem(weekDay + '\n' + (rod.y - 1).toString(),
+                  TextStyle(color: Colors.yellow));
             }),
         touchCallback: (barTouchResponse) {
           setState(() {
@@ -246,8 +251,8 @@ class BarChartSample1State extends State<BarChartSample1> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) =>
-          const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          getTextStyles: (value) => const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {
@@ -290,8 +295,8 @@ class BarChartSample1State extends State<BarChartSample1> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) =>
-          const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          getTextStyles: (value) => const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {
@@ -325,25 +330,32 @@ class BarChartSample1State extends State<BarChartSample1> {
         switch (i) {
           case 0:
             return makeGroupData(0, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 1:
             return makeGroupData(1, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 2:
             return makeGroupData(2, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 3:
             return makeGroupData(3, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 4:
             return makeGroupData(4, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 5:
             return makeGroupData(5, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 6:
             return makeGroupData(6, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           default:
             return null;
         }
@@ -353,7 +365,8 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   Future<dynamic> refreshState() async {
     setState(() {});
-    await Future<dynamic>.delayed(animDuration + const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(
+        animDuration + const Duration(milliseconds: 50));
     if (isShowingWeeklyData) {
       refreshState();
     }

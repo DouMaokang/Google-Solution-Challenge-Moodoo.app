@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:solution_challenge_2021/views/quiz/constants.dart';
 import 'package:solution_challenge_2021/views/quiz/controllers/question_controllerPHQ.dart';
 
-import 'progress_barPHQ.dart';
 import 'question_cardPHQ.dart';
 
 class BodyPHQ extends StatelessWidget {
@@ -14,7 +13,8 @@ class BodyPHQ extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // So that we have access our controller
-    QuestionControllerPHQ _questionControllerPHQ = Get.put(QuestionControllerPHQ());
+    QuestionControllerPHQ _questionControllerPHQ =
+        Get.put(QuestionControllerPHQ());
     return Stack(
       children: [
         SafeArea(

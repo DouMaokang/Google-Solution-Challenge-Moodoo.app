@@ -2,17 +2,16 @@ import 'package:solution_challenge_2021/helper/database.dart';
 import 'package:solution_challenge_2021/models/phq_test.dart';
 import 'package:solution_challenge_2021/models/test.dart';
 
-class PhqDAO{
-
+class PhqDAO {
   PhqDAO._();
+
   static final PhqDAO phqDAO = PhqDAO._();
 
   addTest(PHQ test) async {
     final db = await DBProvider.db.database;
     var res = await db.rawInsert('''
       INSERT Into PHQ (score) VALUES 
-      (${test.score})'''
-    );
+      (${test.score})''');
     return res;
   }
 
@@ -32,9 +31,5 @@ class PhqDAO{
       tests.add(PHQ.fromMap(list[i]));
     }
     return tests;
-
   }
-
 }
-
-

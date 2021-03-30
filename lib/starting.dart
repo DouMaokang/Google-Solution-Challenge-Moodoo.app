@@ -1,11 +1,5 @@
-import 'dart:io';
-import 'package:path/path.dart';
+
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:solution_challenge_2021/helper/database.dart';
-import 'package:solution_challenge_2021/repositories/user_dao.dart';
-import 'package:solution_challenge_2021/views/Screens/Login/login_screen.dart';
-import 'package:solution_challenge_2021/views/Screens/Welcome/welcome_screen.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 import 'package:solution_challenge_2021/views/home/HomePage.dart';
 import 'package:solution_challenge_2021/views/quiz/welcome/welcome_screen.dart';
@@ -17,7 +11,6 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     QuizWelcomeScreen(),
@@ -32,18 +25,14 @@ class _MainState extends State<Main> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: _widgetOptions[_selectedIndex],
         bottomNavigationBar: Theme(
           data: ThemeData(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent
-
-          ),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent),
           child: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(

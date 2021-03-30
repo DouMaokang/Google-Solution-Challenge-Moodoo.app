@@ -18,14 +18,14 @@ class Test {
   int datetimeCreated;
 
   factory Test.fromMap(Map<String, dynamic> json) => Test(
-    id: json["id"],
-    score: json["score"].toDouble(),
-    datetimeCreated: json["datetime_created"],
-  );
+        id: json["id"],
+        score: json["score"].toDouble(),
+        datetimeCreated: json["datetime_created"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "id": id,
-    "score": score,
-    "datetime_created": datetimeCreated,
-  };
+        "id": id,
+        "score": score,
+        "datetime_created": datetimeCreated,
+      };
 }

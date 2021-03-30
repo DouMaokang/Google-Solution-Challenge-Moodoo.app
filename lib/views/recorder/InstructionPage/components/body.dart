@@ -4,7 +4,6 @@ import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.da
 import 'package:solution_challenge_2021/views/recorder/RecordingScreen/recording_screen.dart';
 
 class Body extends StatefulWidget {
-
   final int sessionId;
   final String title;
 
@@ -15,7 +14,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
   int _currentStep = 0;
   int _totalSteps;
   var _messages;
@@ -64,7 +62,9 @@ class _BodyState extends State<Body> {
               incrementStep();
               Navigator.of(context).pushReplacement(PageRouteBuilder(
                   pageBuilder: (context, animation, anotherAnimation) {
-                    return RecordingScreen(sessionId: widget.sessionId,);
+                    return RecordingScreen(
+                      sessionId: widget.sessionId,
+                    );
 //                    return RecorderPage();
                   },
                   transitionDuration: Duration(milliseconds: 1000),
@@ -79,7 +79,6 @@ class _BodyState extends State<Body> {
                       ),
                     );
                   }));
-
             }
             incrementStep();
           } else {
@@ -102,32 +101,40 @@ class _BodyState extends State<Body> {
                   maxValue: _totalSteps,
                   currentValue: _currentStep,
                   backgroundColor: Colors.grey[200],
-                  progressColor: Color(0xffb0e7e1)
-              ),
+                  progressColor: Color(0xffb0e7e1)),
             ),
-            Expanded(child:
-                Container(
-                  margin: EdgeInsets.all(32),
-                  alignment: Alignment.center,
-                  child: AnimatedSwitcher(duration: Duration(milliseconds: 300),
+            Expanded(
+                child: Container(
+              margin: EdgeInsets.all(32),
+              alignment: Alignment.center,
+              child: AnimatedSwitcher(
+                  duration: Duration(milliseconds: 300),
                   child: _displayedMessage()),
-                )
-            ),
+            )),
             Container(
-              margin: EdgeInsets.only(bottom: 32),
-                child: Text("Tap The Right Side To Continue")
-            )
+                margin: EdgeInsets.only(bottom: 32),
+                child: Text("Tap The Right Side To Continue"))
           ],
         ),
       ),
     );
   }
-  
+
   Widget _displayedMessage() {
     if (_currentStep < _totalSteps) {
-      return Text(_messages[_currentStep], key: ValueKey<int>(_currentStep), style: TextStyle(fontSize: 26), textAlign: TextAlign.center,);
+      return Text(
+        _messages[_currentStep],
+        key: ValueKey<int>(_currentStep),
+        style: TextStyle(fontSize: 26),
+        textAlign: TextAlign.center,
+      );
     } else {
-      return Text(_messages[_totalSteps - 1], key: ValueKey<int>(_currentStep), style: TextStyle(fontSize: 26), textAlign: TextAlign.center,);
+      return Text(
+        _messages[_totalSteps - 1],
+        key: ValueKey<int>(_currentStep),
+        style: TextStyle(fontSize: 26),
+        textAlign: TextAlign.center,
+      );
     }
   }
 }

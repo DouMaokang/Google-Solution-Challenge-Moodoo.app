@@ -1,17 +1,16 @@
 import 'package:solution_challenge_2021/helper/database.dart';
 import 'package:solution_challenge_2021/models/test.dart';
 
-class TestDAO{
-
+class TestDAO {
   TestDAO._();
+
   static final TestDAO testDAO = TestDAO._();
 
   addTest(Test test) async {
     final db = await DBProvider.db.database;
     var res = await db.rawInsert('''
       INSERT Into Test (score) VALUES 
-      (${test.score})'''
-    );
+      (${test.score})''');
     return res;
   }
 
@@ -31,9 +30,5 @@ class TestDAO{
       tests.add(Test.fromMap(list[i]));
     }
     return tests;
-
   }
-
 }
-
-

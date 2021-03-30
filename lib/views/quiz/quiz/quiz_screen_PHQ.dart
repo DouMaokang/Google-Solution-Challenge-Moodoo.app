@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 import 'package:solution_challenge_2021/views/quiz/controllers/question_controllerPHQ.dart';
 
-import 'package:solution_challenge_2021/views/quiz/constants.dart';
 import 'components/bodyPHQ.dart';
 
 class QuizScreenPHQ extends StatelessWidget {
@@ -26,7 +25,8 @@ class QuizScreenPHQ extends StatelessWidget {
           FlatButton(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              onPressed: _controllerPHQ.nextQuestion, child: Text("Skip")),
+              onPressed: _controllerPHQ.nextQuestion,
+              child: Text("Skip")),
         ],
       ),
       body: BodyPHQ(),

@@ -1,18 +1,16 @@
 import 'package:solution_challenge_2021/helper/database.dart';
 import 'package:solution_challenge_2021/models/gad_test.dart';
-import 'package:solution_challenge_2021/models/test.dart';
 
-class GadDAO{
-
+class GadDAO {
   GadDAO._();
+
   static final GadDAO gadDAO = GadDAO._();
 
   addTest(GAD test) async {
     final db = await DBProvider.db.database;
     var res = await db.rawInsert('''
       INSERT Into GAD (score) VALUES 
-      (${test.score})'''
-    );
+      (${test.score})''');
     return res;
   }
 
@@ -32,9 +30,5 @@ class GadDAO{
       tests.add(GAD.fromMap(list[i]));
     }
     return tests;
-
   }
-
 }
-
-

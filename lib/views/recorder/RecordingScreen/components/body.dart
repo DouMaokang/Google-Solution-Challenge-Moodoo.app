@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:convert' as convert;
 import 'dart:io';
 
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:solution_challenge_2021/models/record.dart';
@@ -14,11 +15,6 @@ import 'package:solution_challenge_2021/starting.dart';
 import 'package:solution_challenge_2021/views/calendar/calendar_screen.dart';
 import 'package:solution_challenge_2021/views/components/rounded_button.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
-
-import 'package:solution_challenge_2021/views/home/HomePage.dart';
-import 'package:solution_challenge_2021/views/visualization/calendar_view/CalendarPage.dart';
 
 enum RecordPlayState {
   idle,
@@ -53,7 +49,13 @@ class _BodyState extends State<Body> {
   var _maxDuration = 60 * 15;
 
   int _messageIndex = 0;
-  var _message = ["Take a deep breath", "I am here", "Go ahead", "Do not worry about anything", "Focus on your mind flow"];
+  var _message = [
+    "Take a deep breath",
+    "I am here",
+    "Go ahead",
+    "Do not worry about anything",
+    "Focus on your mind flow"
+  ];
   Timer _every30s;
 
   @override
@@ -94,8 +96,8 @@ class _BodyState extends State<Body> {
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: kPrimaryColor),
         leading: new IconButton(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           icon: new Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -147,7 +149,9 @@ class _BodyState extends State<Body> {
 
               // Text Style for Countdown Text.
               textStyle: TextStyle(
-                  fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
+                  fontSize: 33.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
 
               // Format for the Countdown Text.
               textFormat: CountdownTextFormat.MM_SS,
@@ -178,15 +182,13 @@ class _BodyState extends State<Body> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
                 Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.fromLTRB(32, 0, 32, 64),
                     child: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 200),
                       child: _displayedMessage(_message[_messageIndex]),
-                    )
-                ),
+                    )),
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 32),
                   child: _actionShow(context),
@@ -194,20 +196,22 @@ class _BodyState extends State<Body> {
               ],
             ),
           ),
-
-
         ],
       ),
     );
   }
 
   Widget _displayedMessage(message) {
-    return Text(message, key: ValueKey<int>(_messageIndex), style: TextStyle(fontSize: 24, color: Colors.white), textAlign: TextAlign.center,);
+    return Text(
+      message,
+      key: ValueKey<int>(_messageIndex),
+      style: TextStyle(fontSize: 24, color: Colors.white),
+      textAlign: TextAlign.center,
+    );
   }
 
   Widget _actionShow(context) {
-    switch(_state) {
-
+    switch (_state) {
       case RecordPlayState.recording:
         return Ink(
           decoration: const ShapeDecoration(
@@ -215,8 +219,8 @@ class _BodyState extends State<Body> {
             shape: CircleBorder(),
           ),
           child: IconButton(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             icon: const Icon(Icons.pause),
             iconSize: 28,
             color: Colors.white,
@@ -230,7 +234,7 @@ class _BodyState extends State<Body> {
                   builder: (BuildContext bc) {
                     return Container(
                       margin: EdgeInsets.all(16),
-                      height:180,
+                      height: 180,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -246,8 +250,7 @@ class _BodyState extends State<Body> {
                                       },
                                     ),
                                   );
-                                }
-                            ),
+                                }),
                           ),
                           Center(
                             child: RoundedButton(
@@ -263,17 +266,21 @@ class _BodyState extends State<Body> {
                                       builder: (BuildContext bc) {
                                         return Container(
                                           margin: EdgeInsets.all(16),
-                                          height:180,
+                                          height: 180,
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               SizedBox(height: 16),
                                               Center(
-                                                child:Text(
+                                                child: Text(
                                                   "YOU MADE IT!",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
-                                                      color: textPrimaryColor, fontSize: 19, fontWeight: FontWeight.bold),
+                                                      color: textPrimaryColor,
+                                                      fontSize: 19,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                               ),
                                               Center(
@@ -282,30 +289,27 @@ class _BodyState extends State<Body> {
                                                     press: () {
                                                       Navigator.pop(context);
                                                       Navigator.pop(context);
-                                                      Navigator.of(context).pushReplacement(
+                                                      Navigator.of(context)
+                                                          .pushReplacement(
                                                         MaterialPageRoute(
                                                           builder: (context) {
                                                             return CalendarScreen();
                                                           },
                                                         ),
                                                       );
-                                                    }
-                                                ),
+                                                    }),
                                               ),
                                             ],
                                           ),
                                         );
-                                      }
-                                  );
-                                }
-                            ),
+                                      });
+                                }),
                           ),
                           SizedBox(height: 24)
                         ],
                       ),
                     );
-                  }
-              );
+                  });
             },
           ),
         );
@@ -352,7 +356,9 @@ class _BodyState extends State<Body> {
           '${fileDirectory.path}/${soundRecorder.hashCode}-$time${ext[Codec.pcm16.index]}';
 
       // Start recording
-      await soundRecorder.startRecorder(toFile: path,);
+      await soundRecorder.startRecorder(
+        toFile: path,
+      );
 
       this.setState(() {
         _state = RecordPlayState.recording;
@@ -391,7 +397,6 @@ class _BodyState extends State<Body> {
       // Stop countdown timer
       _countdownController.pause();
       await soundRecorder.stopRecorder();
-
     } catch (err) {
       print('stopRecorder error: $err');
     }
@@ -431,7 +436,8 @@ class _BodyState extends State<Body> {
     List<num> data16 = data.buffer.asInt16List();
     List<double> input = data16.map((i) => i.toDouble()).toList();
 
-    var url = Uri.parse('https://arboreal-cat-308207.et.r.appspot.com/v1/ai/predict');
+    var url =
+        Uri.parse('https://arboreal-cat-308207.et.r.appspot.com/v1/ai/predict');
     var header = {"Content-Type": "application/json"};
     var body = jsonEncode(<String, List>{"pcm": input});
 
@@ -448,8 +454,4 @@ class _BodyState extends State<Body> {
       return await _uploadFile(count + 1);
     }
   }
-
 }
-
-
-

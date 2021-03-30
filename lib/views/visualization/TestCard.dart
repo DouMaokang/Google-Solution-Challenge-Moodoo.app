@@ -9,9 +9,9 @@ class TestCard extends StatelessWidget {
         height: 160,
         width: double.infinity,
         child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
           color: const Color(0xffffefa1),
-
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Row(
@@ -29,15 +29,20 @@ class TestCard extends StatelessWidget {
                               Text(
                                 'Test',
                                 style: TextStyle(
-                                    color: const Color(0xff85603f), fontSize: 20, fontWeight: FontWeight.bold),
+                                    color: const Color(0xff85603f),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     '18 Jan, 2021',
                                     style: TextStyle(
-                                        color: const Color(0xff9e7540), fontSize: 16, fontWeight: FontWeight.normal),
+                                        color: const Color(0xff9e7540),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal),
                                   ),
                                   Icon(
                                     Icons.chevron_right,
@@ -47,14 +52,20 @@ class TestCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Text("Your PTA-5 test result shows you're doing great with your mental health",
+                          Text(
+                            "Your PTA-5 test result shows you're doing great with your mental health",
                             style: TextStyle(
-                                color: const Color(0xff9e7540), fontSize: 16, fontWeight: FontWeight.normal),
+                                color: const Color(0xff9e7540),
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal),
                           ),
                         ],
                       ),
                       Divider(),
-                      Icon(Icons.face_outlined, size: 42,)
+                      Icon(
+                        Icons.face_outlined,
+                        size: 42,
+                      )
                     ],
                   ),
                 ),

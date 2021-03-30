@@ -48,7 +48,9 @@ class LineChartSample1State extends State<LineChartSample1> {
                   Text(
                     'IPA-5 Test',
                     style: TextStyle(
-                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 4,
@@ -56,7 +58,9 @@ class LineChartSample1State extends State<LineChartSample1> {
                   Text(
                     '12 Jan ~ 18 Jan, 2021',
                     style: TextStyle(
-                        color: const Color(0xff827daa), fontSize: 18, fontWeight: FontWeight.bold),
+                        color: const Color(0xff827daa),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 38,
@@ -66,7 +70,8 @@ class LineChartSample1State extends State<LineChartSample1> {
                       padding: const EdgeInsets.only(right: 16.0, left: 0.0),
                       child: LineChart(
                         isShowingWeeklyData ? sampleData1() : sampleData2(),
-                        swapAnimationDuration: const Duration(milliseconds: 250),
+                        swapAnimationDuration:
+                            const Duration(milliseconds: 250),
                       ),
                     ),
                   ),
@@ -83,7 +88,8 @@ class LineChartSample1State extends State<LineChartSample1> {
                 child: IconButton(
                   icon: Icon(
                     Icons.more_time_rounded,
-                    color: Colors.white.withOpacity(isShowingWeeklyData ? 1.0 : 0.5),
+                    color: Colors.white
+                        .withOpacity(isShowingWeeklyData ? 1.0 : 0.5),
                   ),
                   onPressed: () {
                     setState(() {

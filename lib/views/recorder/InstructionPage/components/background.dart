@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:liquid_progress_indicator_ns/liquid_progress_indicator.dart';
 
 class Background extends StatelessWidget {
   final Widget child;
+
   const Background({
     Key key,
     @required this.child,

@@ -20,16 +20,16 @@ class User {
   int datetimeCreated;
 
   factory User.fromMap(Map<String, dynamic> json) => User(
-    id: json["id"],
-    username: json["username"],
-    password: json["password"],
-    datetimeCreated: json["datetime_created"],
-  );
+        id: json["id"],
+        username: json["username"],
+        password: json["password"],
+        datetimeCreated: json["datetime_created"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "id": id,
-    "username": username,
-    "password": password,
-    "datetime_created": datetimeCreated,
-  };
+        "id": id,
+        "username": username,
+        "password": password,
+        "datetime_created": datetimeCreated,
+      };
 }

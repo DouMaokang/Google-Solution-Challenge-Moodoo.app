@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:solution_challenge_2021/views/quiz/constants.dart';
 import 'package:solution_challenge_2021/views/quiz/controllers/question_controllerGAD.dart';
 import 'package:solution_challenge_2021/views/quiz/models/QuestionsGAD.dart';
 
-import 'package:solution_challenge_2021/views/quiz/constants.dart';
 import 'optionGAD.dart';
 
 class QuestionCard extends StatelessWidget {

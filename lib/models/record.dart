@@ -2,8 +2,9 @@
 //
 //     final record = recordFromMap(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
+
+import 'package:meta/meta.dart';
 
 Record recordFromMap(String str) => Record.fromMap(json.decode(str));
 
@@ -25,18 +26,18 @@ class Record {
   int datetimeCreated;
 
   factory Record.fromMap(Map<String, dynamic> json) => Record(
-    id: json["id"],
-    sessionId: json["session_id"],
-    filePath: json["file_path"],
-    score: json["score"] == null ? null : json["score"].toDouble(),
-    datetimeCreated: json["datetime_created"],
-  );
+        id: json["id"],
+        sessionId: json["session_id"],
+        filePath: json["file_path"],
+        score: json["score"] == null ? null : json["score"].toDouble(),
+        datetimeCreated: json["datetime_created"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "id": id,
-    "session_id": sessionId,
-    "file_path": filePath,
-    "score": score == null ? null : score,
-    "datetime_created": datetimeCreated,
-  };
+        "id": id,
+        "session_id": sessionId,
+        "file_path": filePath,
+        "score": score == null ? null : score,
+        "datetime_created": datetimeCreated,
+      };
 }

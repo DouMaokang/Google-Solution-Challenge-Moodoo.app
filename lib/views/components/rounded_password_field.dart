@@ -4,6 +4,7 @@ import 'package:solution_challenge_2021/views/constants.dart';
 
 class RoundedPasswordField extends StatelessWidget {
   final ValueChanged<String> onChanged;
+
   const RoundedPasswordField({
     Key key,
     this.onChanged,

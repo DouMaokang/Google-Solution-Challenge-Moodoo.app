@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:solution_challenge_2021/helper/global.dart';
@@ -11,8 +11,6 @@ import 'package:solution_challenge_2021/views/recorder/InstructionPage/instructi
 import '../constants.dart';
 
 class HomePage extends StatefulWidget {
-
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -20,14 +18,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Future _session = SessionDAO.sessionDAO.getAllSession();
   int _current = 0;
-  String _userName = Global.global.getUsername()[0].toUpperCase() + Global.global.getUsername().substring(1);
+  String _userName = Global.global.getUsername()[0].toUpperCase() +
+      Global.global.getUsername().substring(1);
   String _greetings = "Welcome,";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body:SafeArea(
+      body: SafeArea(
         child: FutureBuilder(
           future: _session,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -57,7 +56,9 @@ class _HomePageState extends State<HomePage> {
                                     _greetings,
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                        color: textPrimaryColor, fontSize: 17, fontWeight: FontWeight.bold),
+                                        color: textPrimaryColor,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(
                                     height: 4,
@@ -65,7 +66,9 @@ class _HomePageState extends State<HomePage> {
                                   Text(
                                     _userName,
                                     style: TextStyle(
-                                        color: textPrimaryColor, fontSize: 24, fontWeight: FontWeight.bold),
+                                        color: textPrimaryColor,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
@@ -95,7 +98,8 @@ class _HomePageState extends State<HomePage> {
                           reverse: false,
                           autoPlay: true,
                           autoPlayInterval: Duration(seconds: 5),
-                          autoPlayAnimationDuration: Duration(milliseconds: 1600),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 1600),
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enlargeCenterPage: true,
                           onPageChanged: (index, reason) {
@@ -111,7 +115,8 @@ class _HomePageState extends State<HomePage> {
                               return Container(
                                 width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.all(16),
-                                margin: EdgeInsets.symmetric(horizontal: 3.0, vertical: 16),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 3.0, vertical: 16),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: new BorderRadius.all(
@@ -123,38 +128,49 @@ class _HomePageState extends State<HomePage> {
                                       color: Colors.grey.withOpacity(0.2),
                                       spreadRadius: 4,
                                       blurRadius: 5,
-                                      offset: Offset(0, 4), // changes position of shadow
+                                      offset: Offset(
+                                          0, 4), // changes position of shadow
                                     ),
                                   ],
-
                                 ),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
                                       child: Text(
                                         session["title"],
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: textPrimaryColor),
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            color: textPrimaryColor),
                                       ),
                                     ),
                                     Container(
-                                      height: MediaQuery.of(context).size.height * 0.3,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
                                       child: SvgPicture.asset(
-                                          session["image_path"]
-                                      ),
+                                          session["image_path"]),
                                     ),
                                     Container(
-                                      width: MediaQuery.of(context).size.width * 0.5,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.5,
                                       child: RoundedButton(
                                         text: "START",
                                         press: () {
                                           Navigator.push(
                                             context,
-                                            MaterialPageRoute(builder: (context) {
-                                              return InstructionScreen(sessionId: session["id"], title: session["title"],);
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                              return InstructionScreen(
+                                                sessionId: session["id"],
+                                                title: session["title"],
+                                              );
                                             }),
                                           );
                                         },

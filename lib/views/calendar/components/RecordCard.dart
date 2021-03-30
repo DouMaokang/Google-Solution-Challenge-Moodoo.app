@@ -7,7 +7,6 @@ import 'package:solution_challenge_2021/utils/DateTimeUtil.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 
 class RecordCard extends StatelessWidget {
-
   final Record record;
 
   const RecordCard({Key key, this.record}) : super(key: key);
@@ -29,13 +28,13 @@ class RecordCard extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     Future _session = SessionDAO.sessionDAO.getSession(record.sessionId);
     var _level = _mapScoreToLevel(record.score);
 
-    DateTime date = new DateTime.fromMillisecondsSinceEpoch(record.datetimeCreated * 1000);
+    DateTime date =
+        new DateTime.fromMillisecondsSinceEpoch(record.datetimeCreated * 1000);
     String dateString = DateTimeUtil.dateToString(date);
     return Container(
       margin: EdgeInsets.only(bottom: 2),
@@ -43,10 +42,8 @@ class RecordCard extends StatelessWidget {
         elevation: 0,
         shape: RoundedRectangleBorder(
             side: new BorderSide(color: Colors.grey, width: 1.5),
-            borderRadius: BorderRadius.circular(cardBorderRadius)
-        ),
+            borderRadius: BorderRadius.circular(cardBorderRadius)),
         color: Colors.white,
-
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           child: Column(
@@ -60,7 +57,9 @@ class RecordCard extends StatelessWidget {
                       Text(
                         'Mood',
                         style: TextStyle(
-                            color: textPrimaryColor, fontSize: titleFontSize, fontWeight: FontWeight.w600),
+                            color: textPrimaryColor,
+                            fontSize: titleFontSize,
+                            fontWeight: FontWeight.w600),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +67,9 @@ class RecordCard extends StatelessWidget {
                           Text(
                             '${dateString}',
                             style: TextStyle(
-                                color: textSecondaryColor, fontSize: captionFontSize, fontWeight: FontWeight.normal),
+                                color: textSecondaryColor,
+                                fontSize: captionFontSize,
+                                fontWeight: FontWeight.normal),
                           ),
                         ],
                       ),
@@ -76,41 +77,43 @@ class RecordCard extends StatelessWidget {
                   ),
                   FutureBuilder(
                       future: _session,
-                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
                         if (snapshot.hasError) {
                           return Text("");
                         } else if (snapshot.hasData) {
                           print(snapshot.data);
                           return Center(
                               child: SvgPicture.asset(
-                                snapshot.data.imagePath,
-                                height: 120,
-                              ));
+                            snapshot.data.imagePath,
+                            height: 120,
+                          ));
                         } else {
                           return Text("");
                         }
-                      }
-                  ),
+                      }),
                 ],
               ),
               Divider(),
               FutureBuilder(
                   future: _session,
-                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.hasError) {
                       return Text("");
                     } else if (snapshot.hasData) {
-                      return Text("You have shared ${snapshot.data.title.toLowerCase()}, and we can tell ${_level.toLowerCase()}.",
+                      return Text(
+                        "You have shared ${snapshot.data.title.toLowerCase()}, and we can tell ${_level.toLowerCase()}.",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
-                            color: textPrimaryColor, fontSize: secondaryTextFontSize, fontWeight: FontWeight.normal),
+                            color: textPrimaryColor,
+                            fontSize: secondaryTextFontSize,
+                            fontWeight: FontWeight.normal),
                       );
                     } else {
                       return Text("");
                     }
-                  }
-              ),
-
+                  }),
             ],
           ),
         ),

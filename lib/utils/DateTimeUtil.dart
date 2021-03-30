@@ -1,4 +1,4 @@
-class DateTimeUtil{
+class DateTimeUtil {
   static bool compareDate(DateTime d1, DateTime d2) {
     return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
   }
@@ -8,7 +8,7 @@ class DateTimeUtil{
     try {
       return dayOfWeek[weekday - 1];
     } catch (e) {
-      throw("Index error: passed in weekday = $weekday");
+      throw ("Index error: passed in weekday = $weekday");
     }
   }
 
@@ -30,15 +30,15 @@ class DateTimeUtil{
     try {
       return months[month - 1];
     } catch (e) {
-      throw("Index error: passed in month = $month");
+      throw ("Index error: passed in month = $month");
     }
   }
 
   static String dateToString(DateTime date, [bool withWeekOfDay = false]) {
     String s = withWeekOfDay
         ? compareDate(date, DateTime.now())
-        ? 'Today, '
-        : '${mapWeekOfDay(date.weekday)}, '
+            ? 'Today, '
+            : '${mapWeekOfDay(date.weekday)}, '
         : '';
 
     s += date.day.toString() + ' ';
@@ -46,5 +46,4 @@ class DateTimeUtil{
     s += date.year.toString();
     return s;
   }
-
 }

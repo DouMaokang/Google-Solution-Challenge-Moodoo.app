@@ -1,11 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:solution_challenge_2021/views/Screens/Login/login_screen.dart';
 import 'package:solution_challenge_2021/views/Screens/Signup/signup_screen.dart';
-import 'package:solution_challenge_2021/views/Screens/Welcome/components/background.dart';
 import 'package:solution_challenge_2021/views/components/rounded_button.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
-import 'package:flutter_svg/svg.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -18,17 +17,20 @@ class _BodyState extends State<Body> {
     {
       "image": "assets/icons/talk.svg",
       "title": "Welcome to Moodoo",
-      "text": "We are here to hear you out We are here to hear you out We are here to hear you out"
+      "text":
+          "We are here to hear you out We are here to hear you out We are here to hear you out"
     },
     {
       "image": "assets/icons/group-chat.svg",
       "title": "Share a story",
-      "text": "We are here to hear you out We are here to hear you out We are here to hear you out"
+      "text":
+          "We are here to hear you out We are here to hear you out We are here to hear you out"
     },
     {
       "image": "assets/icons/assessment.svg",
       "title": "Understand mental health",
-      "text": "We are here to hear you out We are here to hear you out We are here to hear you out"
+      "text":
+          "We are here to hear you out We are here to hear you out We are here to hear you out"
     }
   ];
 
@@ -39,7 +41,6 @@ class _BodyState extends State<Body> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(child: SizedBox()),
-
           CarouselSlider(
             options: CarouselOptions(
               height: (MediaQuery.of(context).size.height) * 0.6,
@@ -67,7 +68,7 @@ class _BodyState extends State<Body> {
                     children: [
                       Expanded(
                         child: SvgPicture.asset(
-                            content["image"],
+                          content["image"],
                         ),
                       ),
                       Container(
@@ -77,15 +78,22 @@ class _BodyState extends State<Body> {
                           children: [
                             Text(
                               content["title"],
-                              style: TextStyle(fontSize: 26, fontWeight: FontWeight.w500, color: textPrimaryColor),
+                              style: TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w500,
+                                  color: textPrimaryColor),
                             ),
                             SizedBox(height: 12),
                             Text(
                               content["text"],
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 26, fontWeight: FontWeight.w300, color: textPrimaryColor),
+                              style: TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w300,
+                                  color: textPrimaryColor),
                             ),
-                          ],),
+                          ],
+                        ),
                       ),
                     ],
                   );
@@ -93,38 +101,38 @@ class _BodyState extends State<Body> {
               );
             }).toList(),
           ),
-
           Expanded(child: SizedBox()),
-
-          Column(children: [
-            RoundedButton(
-              color: kPrimaryColor,
-              text: "LOG IN",
-              press: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return LoginScreen();
-                    },
-                  ),
-                );
-              },
-            ),
-            RoundedButton(
-              text: "SIGN UP",
-              color: kPrimaryLightColor,
-              textColor: Colors.black,
-              press: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SignUpScreen();
-                    },
-                  ),
-                );
-              },
-            ),
-          ],)
+          Column(
+            children: [
+              RoundedButton(
+                color: kPrimaryColor,
+                text: "LOG IN",
+                press: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return LoginScreen();
+                      },
+                    ),
+                  );
+                },
+              ),
+              RoundedButton(
+                text: "SIGN UP",
+                color: kPrimaryLightColor,
+                textColor: Colors.black,
+                press: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return SignUpScreen();
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          )
         ],
       ),
     );

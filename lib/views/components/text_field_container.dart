@@ -3,6 +3,7 @@ import 'package:solution_challenge_2021/views/constants.dart';
 
 class TextFieldContainer extends StatelessWidget {
   final Widget child;
+
   const TextFieldContainer({
     Key key,
     this.child,

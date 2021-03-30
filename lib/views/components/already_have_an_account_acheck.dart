@@ -4,6 +4,7 @@ import 'package:solution_challenge_2021/views/constants.dart';
 class AlreadyHaveAnAccountCheck extends StatelessWidget {
   final bool login;
   final Function press;
+
   const AlreadyHaveAnAccountCheck({
     Key key,
     this.login = true,

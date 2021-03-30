@@ -1,11 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:solution_challenge_2021/models/gad_test.dart';
 import 'package:solution_challenge_2021/models/phq_test.dart';
-import 'package:solution_challenge_2021/models/test.dart';
-import 'package:solution_challenge_2021/repositories/gad_dao.dart';
 import 'package:solution_challenge_2021/repositories/phq_dao.dart';
-import 'package:solution_challenge_2021/repositories/test_dao.dart';
 import 'package:solution_challenge_2021/utils/DateTimeUtil.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 
@@ -22,13 +18,11 @@ class PHQ9ChartState extends State<PHQ9Chart> {
     if (testList != null) {
       for (int i = 0; i < testList.length; i++) {
         PHQ test = testList[i];
-        DateTime date = new DateTime.fromMillisecondsSinceEpoch(test.datetimeCreated * 1000);
+        DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+            test.datetimeCreated * 1000);
         String dateString = DateTimeUtil.dateToString(date);
-        if (! data.containsKey(dateString)) {
-          data[dateString] = {
-            "avg_score": 0.0,
-            "test": []
-          };
+        if (!data.containsKey(dateString)) {
+          data[dateString] = {"avg_score": 0.0, "test": []};
         }
         data[dateString]["test"].add(test);
       }
@@ -128,7 +122,9 @@ class PHQ9ChartState extends State<PHQ9Chart> {
                           Text(
                             'PHQ-9 Score',
                             style: TextStyle(
-                                color: textPrimaryColor, fontSize: titleFontSize, fontWeight: FontWeight.bold),
+                                color: textPrimaryColor,
+                                fontSize: titleFontSize,
+                                fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
                             height: 4,
@@ -136,17 +132,21 @@ class PHQ9ChartState extends State<PHQ9Chart> {
                           Text(
                             '${DateTimeUtil.dateToString(DateTime.now().subtract(new Duration(days: 6)))} ~ ${DateTimeUtil.dateToString(DateTime.now())}',
                             style: TextStyle(
-                                color: const Color(0xff827daa), fontSize: titleFontSize, fontWeight: FontWeight.normal),
+                                color: const Color(0xff827daa),
+                                fontSize: titleFontSize,
+                                fontWeight: FontWeight.normal),
                           ),
                           const SizedBox(
                             height: 38,
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 16.0, left: 0.0),
+                              padding:
+                                  const EdgeInsets.only(right: 16.0, left: 0.0),
                               child: LineChart(
                                 sampleData1(_getPast7DaysData(snapshot.data)),
-                                swapAnimationDuration: const Duration(milliseconds: 250),
+                                swapAnimationDuration:
+                                    const Duration(milliseconds: 250),
                               ),
                             ),
                           ),
@@ -161,10 +161,7 @@ class PHQ9ChartState extends State<PHQ9Chart> {
               } else {
                 return Text("");
               }
-            }
-
-
-        ),
+            }),
       ),
     );
   }
@@ -263,7 +260,8 @@ class PHQ9ChartState extends State<PHQ9Chart> {
         ),
       ),
       minX: DateTime.now().subtract(new Duration(days: 6)).weekday.toDouble(),
-      maxX: DateTime.now().subtract(new Duration(days: 6)).weekday.toDouble() + 6,
+      maxX:
+          DateTime.now().subtract(new Duration(days: 6)).weekday.toDouble() + 6,
       maxY: 27,
       minY: 0,
       lineBarsData: barData,

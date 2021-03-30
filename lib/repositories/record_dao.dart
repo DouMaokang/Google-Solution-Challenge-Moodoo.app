@@ -1,26 +1,23 @@
 import 'package:solution_challenge_2021/helper/database.dart';
 import 'package:solution_challenge_2021/models/record.dart';
 
-class RecordDAO{
-
+class RecordDAO {
   RecordDAO._();
+
   static final RecordDAO recordDAO = RecordDAO._();
 
   addRecord(Record record) async {
     final db = await DBProvider.db.database;
     var res = await db.rawInsert('''
       INSERT INTO Record(session_id, file_path) VALUES 
-      (${record.sessionId}, '${record.filePath}')'''
-    );
+      (${record.sessionId}, '${record.filePath}')''');
     return res;
   }
 
   updateRecordScore(Record record) async {
     final db = await DBProvider.db.database;
     var res = await db.rawUpdate('''
-      UPDATE Record SET score = ? WHERE id = ?''',
-      [record.score, record.id]
-    );
+      UPDATE Record SET score = ? WHERE id = ?''', [record.score, record.id]);
     return res;
   }
 
@@ -42,5 +39,3 @@ class RecordDAO{
     return records;
   }
 }
-
-
