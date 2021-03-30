@@ -29,17 +29,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _isAuth = false;
-
 
   @override
   Widget build(BuildContext context) {
     /// Initialize SQLite database
     WidgetsFlutterBinding.ensureInitialized();
-
-    print(SessionDAO.sessionDAO.getAllSession());
-
-
 
     return MaterialApp(
         title: 'Flutter Demo',

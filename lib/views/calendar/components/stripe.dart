@@ -5,12 +5,6 @@ import 'package:solution_challenge_2021/utils/DateTimeUtil.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
-// TODO: do not allow select future dates
-// TODO: do not allow swipe to future calendar pages
-// TODO: create data structure for storing depression scores
-// TODO: check date comparison
-
 class CalendarStripe extends StatefulWidget {
   final Function onSelectedDateChange;
   final Function onVisibleMonthChange;
@@ -55,10 +49,8 @@ class _CalendarStripeState extends State<CalendarStripe> {
 
     if (widget.depressionScore != null) {
       if (widget.depressionScore[dateString] != null) {
-        return widget.depressionScore[dateString] / 10.0;
+        return widget.depressionScore[dateString] / 27.0;
       }
-    } else {
-
     }
     return 0;
   }

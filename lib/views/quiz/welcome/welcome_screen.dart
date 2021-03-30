@@ -43,11 +43,11 @@ class QuizWelcomeScreen extends StatelessWidget {
                       ),
                     ),
                     RoundedButton(
-                      text: "Patient Health Questionnaire (PHQ9)",
+                      text: "PHQ9-9",
                       press: () => Get.to(QuizScreenPHQ())
                     ),
                     RoundedButton(
-                        text: "General Anxiety Disorder-7 (GAD9)",
+                        text: "GAD-7",
                         press: () => Get.to(QuizScreenGAD())
                         ),
                   ],

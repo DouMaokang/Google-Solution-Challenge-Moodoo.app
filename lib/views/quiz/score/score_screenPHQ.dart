@@ -77,7 +77,7 @@ class ScoreScreenPHQ extends StatelessWidget {
                               "$report",
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline5
+                                  .headline6
                                   .copyWith(color: kTextColor, fontWeight: FontWeight.w300),
                               textAlign: TextAlign.center,
                             ),

@@ -7,12 +7,12 @@ import 'package:solution_challenge_2021/repositories/test_dao.dart';
 import 'package:solution_challenge_2021/utils/DateTimeUtil.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 
-class GAD9Chart extends StatefulWidget {
+class GAD7Chart extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => GAD9ChartState();
+  State<StatefulWidget> createState() => GAD7ChartState();
 }
 
-class GAD9ChartState extends State<GAD9Chart> {
+class GAD7ChartState extends State<GAD7Chart> {
   Future _getData() async {
     var data = {};
     List<GAD> testList = await GadDAO.gadDAO.getAllTest();
@@ -122,7 +122,7 @@ class GAD9ChartState extends State<GAD9Chart> {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text(
-                          'GAD-9 Score',
+                          'GAD-7 Score',
                           style: TextStyle(
                               color: textPrimaryColor, fontSize: titleFontSize, fontWeight: FontWeight.bold),
                         ),

@@ -3,6 +3,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:solution_challenge_2021/models/record.dart';
 import 'package:solution_challenge_2021/repositories/session_dao.dart';
+import 'package:solution_challenge_2021/utils/DateTimeUtil.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 
 class RecordCard extends StatelessWidget {
@@ -31,9 +32,11 @@ class RecordCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future _session = SessionDAO.sessionDAO.getSession(record.id);
-    var _level = _mapScoreToLevel(record.score); // TODO: change me
+    Future _session = SessionDAO.sessionDAO.getSession(record.sessionId);
+    var _level = _mapScoreToLevel(record.score);
 
+    DateTime date = new DateTime.fromMillisecondsSinceEpoch(record.datetimeCreated * 1000);
+    String dateString = DateTimeUtil.dateToString(date);
     return Container(
       margin: EdgeInsets.only(bottom: 2),
       child: Card(
@@ -63,14 +66,10 @@ class RecordCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '18 Jan, 2021',
+                            '${dateString}',
                             style: TextStyle(
                                 color: textSecondaryColor, fontSize: captionFontSize, fontWeight: FontWeight.normal),
                           ),
-                          Icon(
-                            Icons.chevron_right,
-                            color: textSecondaryColor,
-                          )
                         ],
                       ),
                     ],
@@ -79,7 +78,7 @@ class RecordCard extends StatelessWidget {
                       future: _session,
                       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                         if (snapshot.hasError) {
-                          return Text("Error");
+                          return Text("");
                         } else if (snapshot.hasData) {
                           print(snapshot.data);
                           return Center(
@@ -88,7 +87,7 @@ class RecordCard extends StatelessWidget {
                                 height: 120,
                               ));
                         } else {
-                          return Text("Loading");
+                          return Text("");
                         }
                       }
                   ),
@@ -99,7 +98,7 @@ class RecordCard extends StatelessWidget {
                   future: _session,
                   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.hasError) {
-                      return Text("Error");
+                      return Text("");
                     } else if (snapshot.hasData) {
                       return Text("You have shared ${snapshot.data.title.toLowerCase()}, and we can tell ${_level.toLowerCase()}.",
                         textAlign: TextAlign.justify,
@@ -107,7 +106,7 @@ class RecordCard extends StatelessWidget {
                             color: textPrimaryColor, fontSize: secondaryTextFontSize, fontWeight: FontWeight.normal),
                       );
                     } else {
-                      return Text("Loading");
+                      return Text("");
                     }
                   }
               ),

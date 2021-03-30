@@ -11,7 +11,7 @@ import 'package:solution_challenge_2021/repositories/record_dao.dart';
 import 'package:solution_challenge_2021/repositories/user_dao.dart';
 import 'package:solution_challenge_2021/utils/DateTimeUtil.dart';
 import 'package:solution_challenge_2021/views/visualization/weekly_view/BarChart.dart';
-import 'package:solution_challenge_2021/views/visualization/weekly_view/GAD9Chart.dart';
+import 'package:solution_challenge_2021/views/visualization/weekly_view/GAD7Chart.dart';
 import 'package:solution_challenge_2021/views/visualization/weekly_view/LineChart.dart';
 import 'package:solution_challenge_2021/views/visualization/weekly_view/PHQ9Chart.dart';
 
@@ -77,7 +77,7 @@ class _ReportPageState extends State<ReportPage> {
         future: _getData(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
-            return Text("Error");
+            return Text("");
           } else if (snapshot.hasData) {
             var _username = snapshot.data["username"];
             var _sessions = snapshot.data["sessions"];
@@ -149,7 +149,7 @@ class _ReportPageState extends State<ReportPage> {
                           ),
                         ),
                         Divider(height: 32,),
-                        GAD9Chart(),
+                        GAD7Chart(),
                         SizedBox(height: 16),
                         PHQ9Chart(),
 
@@ -158,7 +158,7 @@ class _ReportPageState extends State<ReportPage> {
               ),
             );
           } else {
-            return Text("Loading");
+            return Text("");
           }
         }
     ),

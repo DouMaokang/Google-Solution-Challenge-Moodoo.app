@@ -39,7 +39,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  RecordPlayState _state = RecordPlayState.idle;  // TODO: set state accordingly
+  RecordPlayState _state = RecordPlayState.idle;
 
   FlutterSoundRecorder soundRecorder = FlutterSoundRecorder();
   FlutterSoundPlayer soundPlayer = FlutterSoundPlayer();
@@ -346,10 +346,10 @@ class _BodyState extends State<Body> {
         _countdownController.start();
       }
       // Create directory for storing audio files
-      Directory fileDirectory = await getApplicationDocumentsDirectory(); // TODO: use this in production. Only visible to the app
+      Directory fileDirectory = await getApplicationDocumentsDirectory();
       var time = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       String path =
-          '${fileDirectory.path}/${soundRecorder.hashCode}-$time${ext[Codec.pcm16.index]}'; // TODO: change file format
+          '${fileDirectory.path}/${soundRecorder.hashCode}-$time${ext[Codec.pcm16.index]}';
 
       // Start recording
       await soundRecorder.startRecorder(toFile: path,);
@@ -369,7 +369,6 @@ class _BodyState extends State<Body> {
 
   /// Pause recording
   _pauseRecorder() async {
-    // TODO: implementation
     await soundRecorder.pauseRecorder();
     _countdownController.pause();
     setState(() {
@@ -379,7 +378,6 @@ class _BodyState extends State<Body> {
 
   /// Resume recording
   _resumeRecorder() async {
-    // TODO: implementation
     await soundRecorder.resumeRecorder();
     _countdownController.resume();
     setState(() {
@@ -395,7 +393,6 @@ class _BodyState extends State<Body> {
       await soundRecorder.stopRecorder();
 
     } catch (err) {
-      // TODO: catch error
       print('stopRecorder error: $err');
     }
     setState(() {
@@ -408,7 +405,6 @@ class _BodyState extends State<Body> {
     try {
       await soundRecorder.closeAudioSession();
     } catch (e) {
-      // TODO: catch error
       print('Released unsuccessful');
       print(e);
     }

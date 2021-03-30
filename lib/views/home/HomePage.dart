@@ -10,8 +10,6 @@ import 'package:solution_challenge_2021/views/recorder/InstructionPage/instructi
 
 import '../constants.dart';
 
-// TODO: delete the list and change carousel indicator
-
 class HomePage extends StatefulWidget {
 
 
@@ -34,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           future: _session,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasError) {
-              return Text("ERROR");
+              return Text("");
             } else if (snapshot.hasData) {
               print(snapshot.data);
               final List<Map> sessions = snapshot.data;
@@ -189,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                     )
                   ]);
             } else {
-              return Text("Loading");
+              return Text("");
             }
           },
         ),
