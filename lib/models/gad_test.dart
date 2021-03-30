@@ -2,24 +2,24 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-Test testFromMap(String str) => Test.fromMap(json.decode(str));
+GAD testFromMap(String str) => GAD.fromMap(json.decode(str));
 
-String testToMap(Test data) => json.encode(data.toMap());
+String testToMap(GAD data) => json.encode(data.toMap());
 
-class Test {
-  Test({
+class GAD {
+  GAD({
     this.id,
     @required this.score,
     this.datetimeCreated,
   });
 
   int id;
-  double score;
+  int score;
   int datetimeCreated;
 
-  factory Test.fromMap(Map<String, dynamic> json) => Test(
+  factory GAD.fromMap(Map<String, dynamic> json) => GAD(
     id: json["id"],
-    score: json["score"].toDouble(),
+    score: json["score"],
     datetimeCreated: json["datetime_created"],
   );
 

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "654058561818-0r3c9rfbek04dlea8s8vel62mb3c7rur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doumaokang.moodoo",
+            "certificate_hash": "dcb094e41311ad775f3f01288af6f1244fb5b8c3"
+          }
+        },
+        {
           "client_id": "654058561818-v2l4lmsp0hk96buke7c9lpmhk7cs6prh.apps.googleusercontent.com",
           "client_type": 3
         }

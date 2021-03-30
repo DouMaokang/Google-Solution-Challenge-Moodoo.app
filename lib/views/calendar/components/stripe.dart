@@ -11,35 +11,15 @@ import 'package:table_calendar/table_calendar.dart';
 // TODO: create data structure for storing depression scores
 // TODO: check date comparison
 
-final Map<String, double> depressionScore = {
-  DateTimeUtil.dateToString(DateTime(2021, 3, 4)): 1,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 5)): 3,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 6)): 8,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 7)): 9,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 8)): 8,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 9)): 7,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 10)): 5,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 11)): 1,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 12)): 3,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 13)): 8,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 14)): 9,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 15)): 8,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 16)): 7,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 17)): 5,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 18)): 1,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 19)): 3,
-  DateTimeUtil.dateToString(DateTime(2021, 3, 20)): 8,
-};
-
 class CalendarStripe extends StatefulWidget {
   final Function onSelectedDateChange;
   final Function onVisibleMonthChange;
   final CalendarFormat calendarFormat;
-
+  final Map<String, double> depressionScore;
   CalendarStripe(
       {this.onSelectedDateChange,
-      this.onVisibleMonthChange,
-      this.calendarFormat});
+        this.onVisibleMonthChange,
+        this.calendarFormat, this.depressionScore});
 
   @override
   _CalendarStripeState createState() => _CalendarStripeState();
@@ -47,7 +27,6 @@ class CalendarStripe extends StatefulWidget {
 
 class _CalendarStripeState extends State<CalendarStripe> {
   CalendarController _calendarController;
-  AnimationController _animationController;
   CalendarFormat _prevCalendarFormat;
 
   @override
@@ -73,8 +52,13 @@ class _CalendarStripeState extends State<CalendarStripe> {
 
   double _computePercentage(DateTime date) {
     String dateString = DateTimeUtil.dateToString(date.toUtc());
-    if (depressionScore[dateString] != null) {
-      return depressionScore[dateString] / 10.0;
+
+    if (widget.depressionScore != null) {
+      if (widget.depressionScore[dateString] != null) {
+        return widget.depressionScore[dateString] / 10.0;
+      }
+    } else {
+
     }
     return 0;
   }
@@ -131,10 +115,10 @@ class _CalendarStripeState extends State<CalendarStripe> {
               children: [
                 Text('${date.day}',
                     style: TextStyle(
-                      fontSize: secondaryTextFontSize,
-                      color: DateTimeUtil.compareDate(date, DateTime.now())
-                          ? Colors.red
-                          : Colors.black
+                        fontSize: secondaryTextFontSize,
+                        color: DateTimeUtil.compareDate(date, DateTime.now())
+                            ? Colors.red
+                            : Colors.black
                     ),
                     textAlign: TextAlign.center),
               ],
@@ -161,7 +145,6 @@ class _CalendarStripeState extends State<CalendarStripe> {
 
   @override
   Widget build(BuildContext context) {
-    print(depressionScore);
     return Container(
       child: TableCalendar(
         initialCalendarFormat: widget.calendarFormat,
@@ -187,7 +170,7 @@ class _CalendarStripeState extends State<CalendarStripe> {
             if (format == CalendarFormat.week) {
               // swipe in week format
               DateTime selectedDateAfterSwipe =
-                  first.add(new Duration(days: curSelected.weekday));
+              first.add(new Duration(days: curSelected.weekday));
               _calendarController.setSelectedDay(selectedDateAfterSwipe);
               widget.onSelectedDateChange(
                   _calendarController.selectedDay, false);

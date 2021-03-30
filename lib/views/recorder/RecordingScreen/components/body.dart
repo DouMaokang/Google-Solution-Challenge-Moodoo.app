@@ -1,16 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart' show DateFormat;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:solution_challenge_2021/models/record.dart';
+import 'package:solution_challenge_2021/repositories/record_dao.dart';
 import 'package:solution_challenge_2021/views/components/rounded_button.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 enum RecordPlayState {
   idle,
@@ -31,18 +34,13 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   RecordPlayState _state = RecordPlayState.idle;  // TODO: set state accordingly
 
-  StreamSubscription _recorderSubscription;
-
-  String _recorderTxt = '00:00:00';
-
-  double _dbLevel = 0.0;
   FlutterSoundRecorder soundRecorder = FlutterSoundRecorder();
   FlutterSoundPlayer soundPlayer = FlutterSoundPlayer();
 
   CountDownController _countdownController = CountDownController();
 
+  var _sessionId = 1; // TODO: get session id
   var _path = "";
-  var _duration = 0.0;
 
   /// The max length of audio duration in seconds
   var _maxDuration = 59;
@@ -64,21 +62,6 @@ class _BodyState extends State<Body> {
         });
       }
     });
-
-  }
-
-  Future<void> _initializeExample(bool withUI) async {
-    await soundPlayer.closeAudioSession();
-
-    await soundPlayer.openAudioSession(
-        focus: AudioFocus.requestFocusTransient,
-        category: SessionCategory.playAndRecord,
-        mode: SessionMode.modeDefault,
-        device: AudioDevice.speaker);
-
-    await soundPlayer.setSubscriptionDuration(Duration(milliseconds: 30));
-    await soundRecorder.setSubscriptionDuration(Duration(milliseconds: 30));
-    initializeDateFormatting();
   }
 
   Future<void> init() async {
@@ -87,17 +70,11 @@ class _BodyState extends State<Body> {
         category: SessionCategory.playAndRecord,
         mode: SessionMode.modeDefault,
         device: AudioDevice.speaker);
-    await _initializeExample(false);
-
-    if (Platform.isAndroid) {
-      // copyAssets();
-    }
   }
 
   @override
   void dispose() {
     super.dispose();
-    _cancelRecorderSubscriptions();
     _releaseRecorderAndPlayer();
   }
 
@@ -193,12 +170,12 @@ class _BodyState extends State<Body> {
               children: [
 
                 Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.fromLTRB(32, 0, 32, 64),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    child: _displayedMessage(_message[_messageIndex]),
-                  )
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.fromLTRB(32, 0, 32, 64),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: _displayedMessage(_message[_messageIndex]),
+                    )
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 32),
@@ -218,7 +195,6 @@ class _BodyState extends State<Body> {
     return Text(message, key: ValueKey<int>(_messageIndex), style: TextStyle(fontSize: 24, color: Colors.white), textAlign: TextAlign.center,);
   }
 
-
   Widget _actionShow(context) {
     switch(_state) {
 
@@ -235,9 +211,9 @@ class _BodyState extends State<Body> {
             onPressed: () {
               _pauseRecorder();
               showModalBottomSheet(
-                backgroundColor: Colors.white.withOpacity(0.6),
+                  backgroundColor: Colors.white.withOpacity(0.6),
                   isScrollControlled: true,
-                enableDrag: false,
+                  enableDrag: false,
                   isDismissible: false,
                   context: context,
                   builder: (BuildContext bc) {
@@ -250,17 +226,10 @@ class _BodyState extends State<Body> {
                             child: Center(
                               child: SvgPicture.asset(
                                 "assets/icons/group-chat.svg",
-                              height: 200,
+                                height: 200,
                               ),
                             ),
                           ),
-                          Center(
-                            child: RoundedButton(
-                              text: "Continue",
-                                press: () {Navigator.pop(context);}
-                            ),
-                          ),
-
                           Center(
                             child: RoundedButton(
                                 text: "Quit",
@@ -271,7 +240,10 @@ class _BodyState extends State<Body> {
                           Center(
                             child: RoundedButton(
                                 text: "Save",
-                                press: () {Navigator.pop(context);}
+                                press: () {
+                                  Navigator.pop(context);
+                                  _saveRecording();
+                                }
                             ),
                           ),
                         ],
@@ -300,66 +272,33 @@ class _BodyState extends State<Body> {
           ),
         );
     }
-
-
   }
 
   /// 开始录音
   _startRecorder() async {
     try {
-      print("Start clicked");
       // Request microphone permission
       await Permission.microphone.request();
-      print("Start clicked - 1");
-
       PermissionStatus status = await Permission.microphone.status;
-      print("Start clicked - 2");
-
       print(await Permission.microphone.status);
 
       print(await Permission.microphone.request().isGranted);
 
       if (!status.isGranted) {
-        throw RecordingPermissionException("未获取到麦克风权限");
+        throw RecordingPermissionException("Microphone access denied!");
       } else {
         // Start countdown timer
         _countdownController.start();
       }
       // Create directory for storing audio files
-//      Directory fileDirectory = await getExternalStorageDirectory(); // TODO: change the next line. Can be found on the device file system, for debugging only
       Directory fileDirectory = await getApplicationDocumentsDirectory(); // TODO: use this in production. Only visible to the app
       var time = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       String path =
-          '${fileDirectory.path}/${soundRecorder.hashCode}-$time${ext[Codec.mp3.index]}'; // TODO: change file format
-      print('complete path $path');
+          '${fileDirectory.path}/${soundRecorder.hashCode}-$time${ext[Codec.pcm16.index]}'; // TODO: change file format
 
       // Start recording
-      // TODO: adjust bitRate and sampleRate to improve sound quality
-      await soundRecorder.startRecorder(
+      await soundRecorder.startRecorder(toFile: path,);
 
-        toFile: path,
-//        codec: Codec.aacADTS,
-//        bitRate: 256000,
-//        sampleRate: 44100
-      );
-
-      // 监听录音, TODO: for debugging/logging purpose only
-      _recorderSubscription = soundRecorder.onProgress.listen((e) {
-        if (e != null && e.duration != null) {
-          DateTime date = new DateTime.fromMillisecondsSinceEpoch(
-              e.duration.inMilliseconds,
-              isUtc: true);
-          String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
-          if (date.second >= _maxDuration) {
-            _stopRecorder();
-          }
-          setState(() {
-            _recorderTxt = txt.substring(0, 8);
-            _dbLevel = e.decibels;
-            print("当前振幅：$_dbLevel");
-          });
-        }
-      });
       this.setState(() {
         _state = RecordPlayState.recording;
         _path = path;
@@ -369,7 +308,6 @@ class _BodyState extends State<Body> {
       setState(() {
         _stopRecorder();
         _state = RecordPlayState.idle;
-        _cancelRecorderSubscriptions();
       });
     }
   }
@@ -394,36 +332,25 @@ class _BodyState extends State<Body> {
     });
   }
 
-  /// 结束录音
+  /// Stop recording
   _stopRecorder() async {
     try {
       // Stop countdown timer
       _countdownController.pause();
       await soundRecorder.stopRecorder();
-      _cancelRecorderSubscriptions();
-      // _getDuration(); // TODO: for debugging purpose only, change to log in production
+
     } catch (err) {
       // TODO: catch error
       print('stopRecorder error: $err');
     }
     setState(() {
-      _dbLevel = 0.0;
       _state = RecordPlayState.completed;
     });
   }
 
-  /// 取消录音监听
-  void _cancelRecorderSubscriptions() {
-    if (_recorderSubscription != null) {
-      _recorderSubscription.cancel();
-      _recorderSubscription = null;
-    }
-  }
-
-  /// 释放录音和播放
+  /// Release recorder
   Future<void> _releaseRecorderAndPlayer() async {
     try {
-      await soundPlayer.closeAudioSession();
       await soundRecorder.closeAudioSession();
     } catch (e) {
       // TODO: catch error
@@ -432,36 +359,41 @@ class _BodyState extends State<Body> {
     }
   }
 
-  /// Print录音文件秒数
-  // TODO: for debugging only
-  Future<void> _getDuration() async {
-    Duration d = await flutterSoundHelper.duration(_path);
-    _duration = d != null ? d.inMilliseconds / 1000.0 : 0.00;
-    print("_duration == $_duration");
-    var minutes = d.inMinutes;
-    var seconds = d.inSeconds % 60;
-    var millSecond = d.inMilliseconds % 1000 ~/ 10;
-    _recorderTxt = "";
-
-    if (minutes > 9) {
-      _recorderTxt = _recorderTxt + "$minutes";
-    } else {
-      _recorderTxt = _recorderTxt + "0$minutes";
-    }
-
-    if (seconds > 9) {
-      _recorderTxt = _recorderTxt + ":$seconds";
-    } else {
-      _recorderTxt = _recorderTxt + ":0$seconds";
-    }
-
-    if (millSecond > 9) {
-      _recorderTxt = _recorderTxt + ":$millSecond";
-    } else {
-      _recorderTxt = _recorderTxt + ":0$millSecond";
-    }
-    print('text $_recorderTxt');
+  Future<void> _saveRecording() async {
+    Record record = new Record(sessionId: _sessionId, filePath: "sdfsdpath");
+    var recordId = await RecordDAO.recordDAO.addRecord(record);
+    record.id = recordId;
+    print(await RecordDAO.recordDAO.getAllRecord());
+    var score = await _uploadFile();
+    record.score = score;
+    await RecordDAO.recordDAO.updateRecordScore(record);
+    print(await RecordDAO.recordDAO.getAllRecord());
   }
+
+  Future<double> _uploadFile() async {
+    File file = File('$_path');
+    var data = await file.readAsBytes();
+
+    List<num> data16 = data.buffer.asInt16List();
+    List<double> input = data16.map((i) => i.toDouble()).toList();
+    print(input);
+
+    var url = Uri.parse('https://arboreal-cat-308207.et.r.appspot.com/v1/ai/predict');
+    var header = {"Content-Type": "application/json"};
+    var body = jsonEncode(<String, List>{"pcm": input});
+
+    var response = await http.post(url, headers: header, body: body);
+    // Update database
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      return jsonResponse["phq8_score"];
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      print('Trying again');
+      return await _uploadFile();
+    }
+  }
+
 }
 
 

@@ -16,6 +16,11 @@ class _BodyState extends State<Body> {
   int _current = 0;
   var _contents = [
     {
+      "image": "assets/icons/talk.svg",
+      "title": "Welcome to Moodoo",
+      "text": "We are here to hear you out We are here to hear you out We are here to hear you out"
+    },
+    {
       "image": "assets/icons/group-chat.svg",
       "title": "Share a story",
       "text": "We are here to hear you out We are here to hear you out We are here to hear you out"
@@ -66,19 +71,19 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       Container(
-                        width: (MediaQuery.of(context).size.width) * 0.9,
+                        width: (MediaQuery.of(context).size.width) * 0.8,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               content["title"],
-                              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: textPrimaryColor),
+                              style: TextStyle(fontSize: 26, fontWeight: FontWeight.w500, color: textPrimaryColor),
                             ),
                             SizedBox(height: 12),
                             Text(
                               content["text"],
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: textPrimaryColor),
+                              style: TextStyle(fontSize: 26, fontWeight: FontWeight.w300, color: textPrimaryColor),
                             ),
                           ],),
                       ),
@@ -96,8 +101,7 @@ class _BodyState extends State<Body> {
               color: kPrimaryColor,
               text: "LOG IN",
               press: () {
-                Navigator.push(
-                  context,
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
                       return LoginScreen();
@@ -111,8 +115,7 @@ class _BodyState extends State<Body> {
               color: kPrimaryLightColor,
               textColor: Colors.black,
               press: () {
-                Navigator.push(
-                  context,
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
                       return SignUpScreen();

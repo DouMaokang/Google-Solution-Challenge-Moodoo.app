@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:solution_challenge_2021/models/record.dart';
+import 'package:solution_challenge_2021/models/test.dart';
 import 'package:solution_challenge_2021/utils/DateTimeUtil.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
-import 'package:solution_challenge_2021/views/visualization/RecordCard.dart';
+import 'package:solution_challenge_2021/views/calendar/components/RecordCard.dart';
 import 'package:solution_challenge_2021/views/visualization/TestCard.dart';
 import 'package:solution_challenge_2021/views/calendar/components/stripe.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Body extends StatefulWidget {
+  final data;
+  Body({Key key, @required this.data}) : super(key: key);
+
   @override
   _BodyState createState() => _BodyState();
 }
@@ -15,7 +20,9 @@ class _BodyState extends State<Body> {
   DateTime _selectedDate;
   DateTime _focusedDate;
   CalendarFormat _calendarFormat;
-  int _numOfSessions = 1; // TODO: wire this with date
+  Map<String, double> _depressionScore = {};
+  var _records;
+  var _tests;
 
   @override
   void initState() {
@@ -23,6 +30,12 @@ class _BodyState extends State<Body> {
     _selectedDate = DateTime.now();
     _focusedDate = DateTime.now();
     _calendarFormat = CalendarFormat.week;
+    widget.data.forEach((key, value) {
+      _depressionScore[key] = value["avg_score"];
+    });
+    String dateString = DateTimeUtil.dateToString(_selectedDate);
+    _records = widget.data[dateString] == null ? null : widget.data[dateString]["record"];
+    _tests = widget.data[dateString] == null ? null : widget.data[dateString]["test"];
   }
 
 
@@ -33,6 +46,9 @@ class _BodyState extends State<Body> {
       if (_calendarFormat == CalendarFormat.month && toggleFormat) {
         _calendarFormat = CalendarFormat.week;
       }
+      String dateString = DateTimeUtil.dateToString(_selectedDate);
+      _records = widget.data[dateString] == null ? null : widget.data[dateString]["record"];
+      _tests = widget.data[dateString] == null ? null : widget.data[dateString]["test"];
     });
   }
 
@@ -48,6 +64,18 @@ class _BodyState extends State<Body> {
     setState(() {
       _focusedDate = first;
     });
+  }
+
+  Widget _getRecordCards(List recordList)
+  {
+    if (recordList != null) {
+      List<Widget> list = [];
+      for(var i = 0; i < recordList.length; i++){
+        list.add(new RecordCard(record: recordList[i]));
+      }
+      return new Column(children: list);
+    }
+    return new Container(padding: EdgeInsets.only(top: 256), child: Center(child: Text("No recordings")),);
   }
 
   // TODO: change calender date background colors based on available data
@@ -87,7 +115,7 @@ class _BodyState extends State<Body> {
                 )
               ],
             ),
-            CalendarStripe(onSelectedDateChange: _onSelectedDateChange, onVisibleMonthChange: _onVisibleMonthChange, calendarFormat: _calendarFormat),
+            CalendarStripe(onSelectedDateChange: _onSelectedDateChange, onVisibleMonthChange: _onVisibleMonthChange, calendarFormat: _calendarFormat, depressionScore: _depressionScore,),
             Divider(
               height: 1,
             ),
@@ -103,16 +131,7 @@ class _BodyState extends State<Body> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16, left: 2),
-                      child: Text(
-                          "Summary",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              color: textHighlightColor, fontSize: pageTitleFontSize, fontWeight: FontWeight.bold
-                          )
-                      ),
-                    ),
+
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -126,30 +145,10 @@ class _BodyState extends State<Body> {
                               )
                           ),
                         ),
-                        RecordCard(),
-                      ],
+                        _getRecordCards(_records)
+                      ]
                     ),
-
                     SizedBox(height: 16),
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 4, left: 4),
-                          child: Text(
-                              "PTA-5 Test",
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold
-                              )
-                          ),
-                        ),
-                        TestCard()
-                      ],
-                    ),
-
-
                   ],
                 ),
               ),

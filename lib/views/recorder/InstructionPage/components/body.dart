@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:solution_challenge_2021/views/constants.dart';
 import 'package:solution_challenge_2021/views/recorder/RecordingScreen/recording_screen.dart';
+import 'package:solution_challenge_2021/views/recorder/oldRecorderPage.dart';
+//import 'package:solution_challenge_2021/views/recorder/RecordingScreen/recording_screen.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -58,17 +60,10 @@ class _BodyState extends State<Body> {
           if (dx > screenWidth / 2) {
             if (_currentStep == _totalSteps - 1) {
               incrementStep();
-
-//              Navigator.pushReplacement(
-//                context,
-//                MaterialPageRoute(builder: (context) {
-//                  return RecordingScreen();
-//                }),
-//              );
-
               Navigator.of(context).pushReplacement(PageRouteBuilder(
                   pageBuilder: (context, animation, anotherAnimation) {
                     return RecordingScreen();
+//                    return RecorderPage();
                   },
                   transitionDuration: Duration(milliseconds: 1000),
                   transitionsBuilder:
@@ -86,7 +81,11 @@ class _BodyState extends State<Body> {
             }
             incrementStep();
           } else {
-            decrementStep();
+            if (_currentStep == 0) {
+              Navigator.pop(context);
+            } else {
+              decrementStep();
+            }
           }
         },
         child: Column(
@@ -114,10 +113,8 @@ class _BodyState extends State<Body> {
             ),
             Container(
               margin: EdgeInsets.only(bottom: 32),
-                child: Text("Tap the right side to continue")
+                child: Text("Tap The Right Side To Continue")
             )
-
-
           ],
         ),
       ),

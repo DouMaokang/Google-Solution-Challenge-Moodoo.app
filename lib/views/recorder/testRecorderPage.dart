@@ -236,8 +236,6 @@ class _RecorderPageState extends State<RecorderPage> {
             ),
           );
       }
-
-
   }
 
   /// 开始录音
@@ -262,21 +260,18 @@ class _RecorderPageState extends State<RecorderPage> {
         _countdownController.start();
       }
       // Create directory for storing audio files
-//      Directory fileDirectory = await getExternalStorageDirectory(); // TODO: change the next line. Can be found on the device file system, for debugging only
-      Directory fileDirectory = await getApplicationDocumentsDirectory(); // TODO: use this in production. Only visible to the app
+      Directory fileDirectory = await getExternalStorageDirectory(); // TODO: change the next line. Can be found on the device file system, for debugging only
+//      Directory fileDirectory = await getApplicationDocumentsDirectory(); // TODO: use this in production. Only visible to the app
       var time = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       String path =
-          '${fileDirectory.path}/${soundRecorder.hashCode}-$time${ext[Codec.mp3.index]}'; // TODO: change file format
+          '${fileDirectory.path}/${soundRecorder.hashCode}-$time${ext[Codec.pcm16WAV.index]}'; // TODO: change file format
       print('complete path $path');
 
       // Start recording
       // TODO: adjust bitRate and sampleRate to improve sound quality
       await soundRecorder.startRecorder(
-
         toFile: path,
-//        codec: Codec.aacADTS,
-//        bitRate: 256000,
-//        sampleRate: 44100
+        codec: Codec.pcm16WAV,
       );
 
       // 监听录音, TODO: for debugging/logging purpose only

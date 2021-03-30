@@ -271,36 +271,34 @@ class _RecorderPageState extends State<RecorderPage> {
         throw RecordingPermissionException("未获取到麦克风权限");
       }
       print('===>  获取了权限');
-      Directory tempDir = await getTemporaryDirectory();
+      Directory tempDir = await getExternalStorageDirectory(); // TODO: change the next line. Can be found on the device file system, for debugging only
+//      Directory tempDir = await getTemporaryDirectory();
       var time = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-      String path =
-          '${tempDir.path}/${recorderModule.hashCode}-$time${ext[Codec.aacADTS.index]}';
+      String path = '${tempDir.path}/${recorderModule.hashCode}-$time${ext[Codec.pcm16.index]}';
       print('===>  准备开始录音');
       await recorderModule.startRecorder(
         toFile: path,
-        codec: Codec.aacADTS,
-        bitRate: 8000,
-        sampleRate: 8000,
+        codec: Codec.pcm16,
       );
       print('===>  开始录音');
 
       /// 监听录音
-      _recorderSubscription = recorderModule.onProgress.listen((e) {
-        if (e != null && e.duration != null) {
-          DateTime date = new DateTime.fromMillisecondsSinceEpoch(
-              e.duration.inMilliseconds,
-              isUtc: true);
-          String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
-          if (date.second >= _maxLength) {
-            _stopRecorder();
-          }
-          setState(() {
-            _recorderTxt = txt.substring(0, 8);
-            _dbLevel = e.decibels;
-            print("当前振幅：$_dbLevel");
-          });
-        }
-      });
+//      _recorderSubscription = recorderModule.onProgress.listen((e) {
+//        if (e != null && e.duration != null) {
+//          DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+//              e.duration.inMilliseconds,
+//              isUtc: true);
+//          String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
+//          if (date.second >= _maxLength) {
+//            _stopRecorder();
+//          }
+//          setState(() {
+//            _recorderTxt = txt;
+//            _dbLevel = e.decibels;
+//            print("当前振幅：$_dbLevel");
+//          });
+//        }
+//      });
       this.setState(() {
         _state = RecordPlayState.recording;
         _path = path;
@@ -363,27 +361,9 @@ class _RecorderPageState extends State<RecorderPage> {
     Duration d = await flutterSoundHelper.duration(_path);
     _duration = d != null ? d.inMilliseconds / 1000.0 : 0.00;
     print("_duration == $_duration");
-    var minutes = d.inMinutes;
     var seconds = d.inSeconds % 60;
     var millSecond = d.inMilliseconds % 1000 ~/ 10;
     _recorderTxt = "";
-    if (minutes > 9) {
-      _recorderTxt = _recorderTxt + "$minutes";
-    } else {
-      _recorderTxt = _recorderTxt + "0$minutes";
-    }
-
-    if (seconds > 9) {
-      _recorderTxt = _recorderTxt + ":$seconds";
-    } else {
-      _recorderTxt = _recorderTxt + ":0$seconds";
-    }
-    if (millSecond > 9) {
-      _recorderTxt = _recorderTxt + ":$millSecond";
-    } else {
-      _recorderTxt = _recorderTxt + ":0$millSecond";
-    }
-    print(_recorderTxt);
     setState(() {});
   }
 
@@ -391,9 +371,29 @@ class _RecorderPageState extends State<RecorderPage> {
   Future<void> _startPlayer() async {
     try {
       if (await _fileExists(_path)) {
+        File file = File('$_path');
+        var data = await file.readAsBytes();
+
+        List<num> data16 = data.buffer.asInt16List();
+        List<double> input = data16.map((i) => i.toDouble()).toList();
+
+
+
+        var sampleRate = 16000;
+        var windowLength = 512;
+        print(windowLength);
+        var windowStride = 128;
+        print(windowStride);
+        var fftSize = 512;
+        var numFilter = 26;
+        var numCoefs = 13;
+
+//        var features = MFCC.mfccFeats(input, sampleRate, windowLength, windowStride, fftSize, numFilter, numCoefs);
+
+
         await playerModule.startPlayer(
             fromURI: _path,
-            codec: Codec.aacADTS,
+            codec: Codec.pcm16,
             whenFinished: () {
               print('==> 结束播放');
               _stopPlayer();
@@ -407,15 +407,6 @@ class _RecorderPageState extends State<RecorderPage> {
       _cancelPlayerSubscriptions();
       _playerSubscription = playerModule.onProgress.listen((e) {
         if (e != null) {
-          // print("${e.duration} -- ${e.position} -- ${e.duration.inMilliseconds} -- ${e.position.inMilliseconds}");
-          // DateTime date = new DateTime.fromMillisecondsSinceEpoch(
-          //     e.position.inMilliseconds,
-          //     isUtc: true);
-          // String txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
-
-          // this.setState(() {
-          // this._playerTxt = txt.substring(0, 8);
-          // });
         }
       });
       setState(() {
