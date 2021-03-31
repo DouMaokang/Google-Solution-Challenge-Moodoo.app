@@ -38,7 +38,7 @@ class PHQ9ChartState extends State<PHQ9Chart> {
             totalScore += element.score.toDouble();
           }
         });
-        data[key]["avg_score"] = totalScore / numOfScores;
+        data[key]["avg_score"] = (totalScore ~/ numOfScores).toDouble();
       });
     }
     return data;

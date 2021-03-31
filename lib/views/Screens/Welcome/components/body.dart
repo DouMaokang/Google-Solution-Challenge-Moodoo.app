@@ -16,21 +16,19 @@ class _BodyState extends State<Body> {
   var _contents = [
     {
       "image": "assets/icons/talk.svg",
-      "title": "Welcome to Moodoo",
       "text":
-          "We are here to hear you out We are here to hear you out We are here to hear you out"
+          "Welcome to Moodoo. We provide tools backed by science to help you master mental health."
     },
     {
       "image": "assets/icons/group-chat.svg",
-      "title": "Share a story",
       "text":
-          "We are here to hear you out We are here to hear you out We are here to hear you out"
+          "You can safely share your thoughts, stories, happniess, sadness and struggles with us."
+              " We are your friends."
     },
     {
       "image": "assets/icons/assessment.svg",
-      "title": "Understand mental health",
       "text":
-          "We are here to hear you out We are here to hear you out We are here to hear you out"
+          "We safely process each and every single conversation between us. Privacy is at our heart."
     }
   ];
 
@@ -76,19 +74,12 @@ class _BodyState extends State<Body> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              content["title"],
-                              style: TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w500,
-                                  color: textPrimaryColor),
-                            ),
                             SizedBox(height: 12),
                             Text(
                               content["text"],
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 26,
+                                  fontSize: 24,
                                   fontWeight: FontWeight.w300,
                                   color: textPrimaryColor),
                             ),

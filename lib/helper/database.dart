@@ -11,7 +11,14 @@ class DBProvider {
 
   static Database _database;
 
+  List _date = [];
+
   Future<Database> get database async {
+
+    for (int i = 0; i < 30; i++) {
+      _date.add(DateTime.now().subtract(new Duration(days: i)).millisecondsSinceEpoch ~/ 1000);
+    }
+
     if (_database != null) return _database;
 
     // if _database is null we instantiate it
@@ -19,9 +26,11 @@ class DBProvider {
     return _database;
   }
 
+
+
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "TestDB10.db");
+    String path = join(documentsDirectory.path, "Demo-2.db");
     return await openDatabase(path, version: 1, onOpen: (Database db) {},
         onCreate: (Database db, int version) async {
       // Create User table for storing user info
@@ -82,27 +91,75 @@ class DBProvider {
           ''');
 
       await db.execute('''
+            INSERT INTO Record(session_id, datetime_created, score) VALUES
+            (1, ${_date[29]}, 4.3),
+            (2, ${_date[28]}, 5.6),
+            (3, ${_date[27]}, 12.4),
+            (4, ${_date[26]}, 13.6),
+            (5, ${_date[25]}, 13.5),
+            (6, ${_date[24]}, 5.6),
+            (7, ${_date[23]}, 3.2),
+            (8, ${_date[22]}, 20.1),
+            (9, ${_date[21]}, 18.0),
+            (10, ${_date[20]}, 19.2),
+            (11, ${_date[19]}, 12.0),
+            (12, ${_date[18]}, 11.0),
+            (13, ${_date[17]}, 11.0),
+            (1, ${_date[16]}, 11.0),
+            (2, ${_date[15]}, 16.2),
+            (3, ${_date[14]}, 15.2),
+            (4, ${_date[13]}, 11.2),
+            (5, ${_date[12]}, 9.2),
+            (6, ${_date[11]}, 10.2),
+            (13, ${_date[10]}, 11.2),
+            (12, ${_date[9]}, 12.2),
+            (10, ${_date[20]}, 13.2),
+            (11, ${_date[19]}, 15.2),
+            (12, ${_date[18]}, 16.2),
+            (13, ${_date[17]}, 21.2),
+            (1, ${_date[16]}, 16.2),
+            (2, ${_date[15]}, 15.2),
+            (3, ${_date[14]}, 14.2),
+            (4, ${_date[13]}, 12.2),
+            (5, ${_date[12]}, 0.2),
+            (6, ${_date[11]}, 2.2),
+            (13, ${_date[10]}, 3.2),
+            (12, ${_date[9]}, 3.2),
+            (11, ${_date[8]}, 3.2),
+            (8, ${_date[7]}, 6.2),
+            (5, ${_date[6]}, 8.2),
+            (6, ${_date[5]}, 15.2),
+            (7, ${_date[4]}, 14.2),
+            (3, ${_date[3]}, 12.2),
+            (12, ${_date[2]}, 6.2),
+            (11, ${_date[1]}, 3.2)
+          ''');
+
+      await db.execute('''
             INSERT INTO GAD(score, datetime_created) VALUES
-            (18, 1617017003),
-            (21, 1616930603),
-            (11, 1616844203),
-            (13, 1616757803),
-            (17, 1616671403),
-            (20, 1616498603),
-            (15, 1616325803),
-            (17, 1616325803)
+            (15, ${_date[0]}),
+            (16, ${_date[1]}),
+            (17, ${_date[2]}),
+            (13, ${_date[3]}),
+            (12, ${_date[4]}),
+            (11, ${_date[5]}),
+            (8, ${_date[6]}),
+            (5, ${_date[7]}),
+            (5, ${_date[8]})
           ''');
 
       await db.execute('''
             INSERT INTO PHQ(score, datetime_created) VALUES
-            (27, 1617017003),
-            (25, 1616930603),
-            (24, 1616844203),
-            (18, 1616757803),
-            (16, 1616671403),
-            (10, 1616498603),
-            (5, 1616325803),
-            (6, 1616325803)
+            (10, ${_date[0]}),
+            (11, ${_date[1]}),
+            (12, ${_date[2]}),
+            (10, ${_date[3]}),
+            (11, ${_date[4]}),
+            (12, ${_date[5]}),
+            (8, ${_date[6]}),
+            (9, ${_date[7]}),
+            (8, ${_date[8]})
+
           ''');
     });
   }
